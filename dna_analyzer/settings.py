@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'convert_eps_to_png',
+    'graphics'
 ]
 
 MIDDLEWARE = [
