@@ -5,7 +5,7 @@ chardet==3.0.4
 distlib==0.3.0
 dj-database-url==0.5.0
 dj-static==0.0.6
-Django==3.0.4
+Django==3.0.7
 django-storages==1.9.1
 dropbox==9.4.0
 filelock==3.0.12
