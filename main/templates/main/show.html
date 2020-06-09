@@ -17,15 +17,20 @@
 
   <!-- Main content -->
   <section class="content">
-    {% if envoi %}Votre message a bien été envoyé !{% endif %}
-
-    <form action="{% url "index" %}" method="post" enctype="multipart/form-data">
-      <p>testt</p>
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Submit" />
-    </form>
-    <!-- Info boxes -->
-
+    <p>Titre : {{ dna.title }}</p>
+    <p>{{ dna.file_path }}</p>
+    <p>Nombre de base composant le génome : {{ dna.nb_bases }}</p>
+    <p>Nombre d'Adénine : {{ dna.nb_a }}</p>
+    <p>Nombre de Cytosine : {{ dna.nb_c }}</p>
+    <p>Nombre de Guanine : {{ dna.nb_g }}</p>
+    <p>Nombre de Thymine : {{ dna.nb_t }}</p>
+    <p>Pourcentage d'Adénine : {{ dna.percentage_a }}</p>
+    <p>Pourcentage de Cytosine : {{ dna.percentage_c }}</p>
+    <p>Pourcentage de Guanine : {{ dna.percentage_g }}</p>
+    <p>Pourcentage de Thymine : {{ dna.percentage_t }}</p>
+    <p>Pourcentage de Guanine et de Cytosine : {{ dna.percentage_gc }}</p>
+    <p>Pourcentage d'Adénine et de Thymine : {{ dna.percentage_at }}</p>
+    <hr>
+    <p><i>ADN : {{ dna.file }}</i></p>
 </div><!-- /.content-wrapper -->
 {% endblock %}
