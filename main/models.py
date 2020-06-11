@@ -1,6 +1,9 @@
 from django.db import models
 from collections import Counter
 
+from django.utils import timezone
+
+
 class Dna(models.Model):
     """
         self.data['nb_bases']
@@ -24,6 +27,7 @@ class Dna(models.Model):
     percentage_t    = models.TextField(max_length=50, null=True)
     percentage_gc   = models.TextField(max_length=50, null=True)
     percentage_at   = models.TextField(max_length=50, null=True)
+    date            = models.DateField(default=timezone.now, verbose_name="Date de création")
 
     def dna_walk(self):
         pass

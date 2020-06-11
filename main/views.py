@@ -26,6 +26,11 @@ def index(request):
     return render(request, 'main/index.html', locals())
 
 
+def genome_list(request):
+    dnas = Dna.objects.all()
+    return render(request, 'main/genome_list.html', locals())
+
+
 def show(request, id):
     dna = get_object_or_404(Dna, id=id)
     return render(request, 'main/show.html', locals())

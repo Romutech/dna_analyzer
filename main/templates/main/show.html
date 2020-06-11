@@ -17,20 +17,23 @@
 
   <!-- Main content -->
   <section class="content">
-    <p>Titre : {{ dna.title }}</p>
-    <p>{{ dna.file_path }}</p>
-    <p>Nombre de base composant le génome : {{ dna.nb_bases }}</p>
-    <p>Nombre d'Adénine : {{ dna.nb_a }}</p>
-    <p>Nombre de Cytosine : {{ dna.nb_c }}</p>
-    <p>Nombre de Guanine : {{ dna.nb_g }}</p>
-    <p>Nombre de Thymine : {{ dna.nb_t }}</p>
-    <p>Pourcentage d'Adénine : {{ dna.percentage_a }}</p>
-    <p>Pourcentage de Cytosine : {{ dna.percentage_c }}</p>
-    <p>Pourcentage de Guanine : {{ dna.percentage_g }}</p>
-    <p>Pourcentage de Thymine : {{ dna.percentage_t }}</p>
-    <p>Pourcentage de Guanine et de Cytosine : {{ dna.percentage_gc }}</p>
-    <p>Pourcentage d'Adénine et de Thymine : {{ dna.percentage_at }}</p>
-    <hr>
-    <p><i>ADN : {{ dna.file }}</i></p>
+    <h2>Dénomination de la sequence</h2>
+    <p>Nom de la séquence ADN : <b>{{ dna.title }}</b></p>
+    <p>Nom du fichier Téléverser : <b>{{ dna.file_path }}</b></p>
+    <h2>Données statistiques de la séquence</h2>
+    <p>Nombre de base composant la séquence : <b>{{ dna.nb_bases }}</b></p>
+    <p>Nombre d'Adénine : <b>{{ dna.nb_a }}</b></p>
+    <p>Nombre de Cytosine : <b>{{ dna.nb_c }}</b></p>
+    <p>Nombre de Guanine : <b>{{ dna.nb_g }}</b></p>
+    <p>Nombre de Thymine : <b>{{ dna.nb_t }}</b></p>
+    <p>Pourcentage d'Adénine : <b>{{ dna.percentage_a }} %</b></p>
+    <p>Pourcentage de Cytosine : <b>{{ dna.percentage_c }} %</b></p>
+    <p>Pourcentage de Guanine : <b>{{ dna.percentage_g }} %</b></p>
+    <p>Pourcentage de Thymine : <b>{{ dna.percentage_t }} %</b></p>
+    <p>Pourcentage de Guanine et de Cytosine : <b>{{ dna.percentage_gc }} %</b></p>
+    <p>Pourcentage d'Adénine et de Thymine : <b>{{ dna.percentage_at }} %</b></p>
+    <br>
+    <h2>Séquence ADN</h2>
+    <p><i>{{ dna.file|linebreaks }}</i></p>
 </div><!-- /.content-wrapper -->
 {% endblock %}
