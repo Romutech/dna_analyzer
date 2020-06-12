@@ -40,12 +40,20 @@
           <p><b>Pas de données statistique pour le moment !</b></p>
           {% if dna.file is not None %}
             <a href="{% url 'analyze' dna.id %}"><button class="btn btn-block btn-primary btn-lg">Analyser la séquence</button></a>
+          {% else %}
+            <p>La séquence ADN est vide, vous ne pouvez par conséquent pas l'analyser !</p>
           {% endif %}
         </div>
       </div>
     {% endif %}
     <br>
     <h2>Séquence ADN</h2>
-    <p><i>{{ dna.file|linebreaks }}</i></p>
+    {% if dna.nb_bases < 1000000 %}
+      <p><i>{{ dna.file|linebreaks }}</i></p>
+    {% elif dna.nb_bases is None %}
+      <p>La séquence ADN est vide !</p>
+    {% else %}
+      <p>La séquence ADN est trop longue pour etre affichée ici !</p>
+    {% endif %}
 </div><!-- /.content-wrapper -->
 {% endblock %}

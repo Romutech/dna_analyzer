@@ -33,7 +33,8 @@ def genome_list(request):
 
 def show(request, id):
     dna = get_object_or_404(Dna, id=id)
-    print(dna.nb_bases)
+    if dna.nb_bases is not None:
+        dna.nb_bases = int(dna.nb_bases)
     return render(request, 'main/show.html', locals())
 
 
