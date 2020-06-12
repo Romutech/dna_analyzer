@@ -6,12 +6,12 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      Dashboard
-      <small>Version 2.0</small>
+      {{ dna.title }}
     </h1>
     <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active">Dashboard</li>
+      <li><a href="{% url 'index' %}"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li class=""><a href="{% url 'genome_list' %}">liste des séquences</a></li>
+      <li class="active">séquence</li>
     </ol>
   </section>
 
@@ -20,18 +20,30 @@
     <h2>Dénomination de la sequence</h2>
     <p>Nom de la séquence ADN : <b>{{ dna.title }}</b></p>
     <p>Nom du fichier Téléverser : <b>{{ dna.file_path }}</b></p>
+    <p>ID : <b>{{ dna.id }}</b></p>
     <h2>Données statistiques de la séquence</h2>
-    <p>Nombre de base composant la séquence : <b>{{ dna.nb_bases }}</b></p>
-    <p>Nombre d'Adénine : <b>{{ dna.nb_a }}</b></p>
-    <p>Nombre de Cytosine : <b>{{ dna.nb_c }}</b></p>
-    <p>Nombre de Guanine : <b>{{ dna.nb_g }}</b></p>
-    <p>Nombre de Thymine : <b>{{ dna.nb_t }}</b></p>
-    <p>Pourcentage d'Adénine : <b>{{ dna.percentage_a }} %</b></p>
-    <p>Pourcentage de Cytosine : <b>{{ dna.percentage_c }} %</b></p>
-    <p>Pourcentage de Guanine : <b>{{ dna.percentage_g }} %</b></p>
-    <p>Pourcentage de Thymine : <b>{{ dna.percentage_t }} %</b></p>
-    <p>Pourcentage de Guanine et de Cytosine : <b>{{ dna.percentage_gc }} %</b></p>
-    <p>Pourcentage d'Adénine et de Thymine : <b>{{ dna.percentage_at }} %</b></p>
+    {% if dna.nb_bases is not None %}
+      <p>Nombre de base composant la séquence : <b>{{ dna.nb_bases }}</b></p>
+      <p>Nombre d'Adénine : <b>{{ dna.nb_a }}</b></p>
+      <p>Nombre de Cytosine : <b>{{ dna.nb_c }}</b></p>
+      <p>Nombre de Guanine : <b>{{ dna.nb_g }}</b></p>
+      <p>Nombre de Thymine : <b>{{ dna.nb_t }}</b></p>
+      <p>Pourcentage d'Adénine : <b>{{ dna.percentage_a }} %</b></p>
+      <p>Pourcentage de Cytosine : <b>{{ dna.percentage_c }} %</b></p>
+      <p>Pourcentage de Guanine : <b>{{ dna.percentage_g }} %</b></p>
+      <p>Pourcentage de Thymine : <b>{{ dna.percentage_t }} %</b></p>
+      <p>Pourcentage de Guanine et de Cytosine : <b>{{ dna.percentage_gc }} %</b></p>
+      <p>Pourcentage d'Adénine et de Thymine : <b>{{ dna.percentage_at }} %</b></p>
+    {% else %}
+      <div class="row">
+        <div class="col-md-6">
+          <p><b>Pas de données statistique pour le moment !</b></p>
+          {% if dna.file is not None %}
+            <a href="{% url 'analyze' dna.id %}"><button class="btn btn-block btn-primary btn-lg">Analyser la séquence</button></a>
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
     <br>
     <h2>Séquence ADN</h2>
     <p><i>{{ dna.file|linebreaks }}</i></p>

@@ -308,18 +308,19 @@
             <li class="header">MAIN NAVIGATION</li>
             <li class="active treeview">
               <a href="#">
-                <i class="fa fa-dashboard"></i> <span>Téléverser une nouvelle sequence</span> <i class="fa fa-angle-left pull-right"></i>
+                <i class="fa fa-dashboard"></i> <span>ADN</span> <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
-                <li class="active"><a href="index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
+                <li>
+                  <a href="{% url 'genome_list' %}"><i class="fa fa-calendar"></i> <span>Listes des sequences</span></a>
+                </li>
+                <li class="active">
+                  <a href="index.html"><i class="fa fa-circle-o"></i>Téléverser une sequence</a>
+                </li>
               </ul>
             </li>
             <li>
-              <a href="{% url 'genome_list' %}">
-                <i class="fa fa-calendar"></i> <span>Listes des genomes</span>
-                <small class="label pull-right bg-red">3</small>
-              </a>
+
             </li>
           </ul>
         </section>

@@ -16,7 +16,7 @@ class Dna(models.Model):
     title           = models.TextField(max_length=50)
     file            = models.TextField(null=True)
     file_path       = models.FileField()
-    nb_bases        = models.TextField(max_length=50, null=True)
+    nb_bases        = models.TextField(max_length=500, null=True)
     nb_a            = models.TextField(max_length=50, null=True)
     nb_c            = models.TextField(max_length=50, null=True)
     nb_g            = models.TextField(max_length=50, null=True)
@@ -42,8 +42,7 @@ class Dna(models.Model):
 
 
     def number_nucleotides(self):
-        occurrences = Counter(self.file)
-        print(occurrences)
+        occurrences = Counter(self.file.lower())
         self.nb_bases = occurrences['a'] + occurrences['c'] + occurrences['g'] + occurrences['t']
         self.nb_a = occurrences['a']
         self.nb_c = occurrences['c']
