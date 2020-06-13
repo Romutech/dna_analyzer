@@ -1,10 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponseRedirect
 from .forms import DnaForm
-from .models import Dna
-from django.conf import settings
-from tkinter import Tk
-from collections import Counter
 from .models import *
 
 
@@ -24,16 +19,16 @@ def create(request):
     return render(request, 'main/create.html', locals())
 
 
-def genome_list(request):
-    dnas = Dna.objects.all()
-    return render(request, 'main/genome_list.html', locals())
-
-
 def show(request, id):
     dna = get_object_or_404(Dna, id=id)
     if dna.nb_bases is not None:
         dna.nb_bases = int(dna.nb_bases)
     return render(request, 'main/show.html', locals())
+
+
+def genome_list(request):
+    dnas = Dna.objects.all()
+    return render(request, 'main/genome_list.html', locals())
 
 
 def analyze(request, id):

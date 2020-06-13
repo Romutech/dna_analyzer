@@ -11,8 +11,8 @@ class Dna(models.Model):
         self.data['nb_c']
         self.data['nb_g']
         self.data['nb_t']
-
     """
+
     title           = models.TextField(max_length=50)
     file            = models.TextField(null=True)
     file_path       = models.FileField()
@@ -57,6 +57,7 @@ class Dna(models.Model):
     def percentage_GC_AT(self):
         self.percentage_gc = self.percentage_a + self.percentage_t
         self.percentage_at = self.percentage_g + self.percentage_c
+
 
     def save(self, form):
         self.title = form.cleaned_data['title']
