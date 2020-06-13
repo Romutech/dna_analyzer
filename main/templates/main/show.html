@@ -10,7 +10,7 @@
     </h1>
     <ol class="breadcrumb">
       <li><a href="{% url 'index' %}"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class=""><a href="{% url 'genome_list' %}">liste des séquences</a></li>
+      <li class=""><a href="{% url 'genome_list' %}">Liste des séquences</a></li>
       <li class="active">séquence</li>
     </ol>
   </section>
@@ -34,6 +34,14 @@
       <p>Pourcentage de Thymine : <b>{{ dna.percentage_t }} %</b></p>
       <p>Pourcentage de Guanine et de Cytosine : <b>{{ dna.percentage_gc }} %</b></p>
       <p>Pourcentage d'Adénine et de Thymine : <b>{{ dna.percentage_at }} %</b></p>
+      <br>
+      <div class="row">
+        <div class="col-md-2">
+          {% if dna.file is not None %}
+            <a href="{% url 'analyze' dna.id %}"><button class="btn btn-block btn-primary">Réanalyser la séquence</button></a>
+          {% endif %}
+        </div>
+      </div>
     {% else %}
       <div class="row">
         <div class="col-md-6">
@@ -48,12 +56,12 @@
     {% endif %}
     <br>
     <h2>Séquence ADN</h2>
-    {% if dna.nb_bases < 1000000 %}
+    {% if dna.file|length > 0 and dna.file|length < 1000000 %}
       <p><i>{{ dna.file|linebreaks }}</i></p>
-    {% elif dna.nb_bases is None %}
-      <p>La séquence ADN est vide !</p>
+    {% elif dna.file|length >= 1000000 %}
+      <p>La séquence ADN est trop longue pour être affichée ici !</p>
     {% else %}
-      <p>La séquence ADN est trop longue pour etre affichée ici !</p>
+      <p>La séquence ADN est vide !</p>
     {% endif %}
 </div><!-- /.content-wrapper -->
 {% endblock %}

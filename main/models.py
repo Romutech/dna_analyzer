@@ -29,15 +29,12 @@ class Dna(models.Model):
     percentage_at   = models.TextField(max_length=50, null=True)
     date            = models.DateField(default=timezone.now, verbose_name="Date de création")
 
-    def dna_walk(self):
-        pass
-
 
     def analyse(self):
         self.number_nucleotides()
         self.percentage_nucleotide()
         self.percentage_GC_AT()
-        self.save()
+        models.Model.save(self)
         return self
 
 
@@ -60,3 +57,12 @@ class Dna(models.Model):
     def percentage_GC_AT(self):
         self.percentage_gc = self.percentage_a + self.percentage_t
         self.percentage_at = self.percentage_g + self.percentage_c
+
+    def save(self, form):
+        self.title = form.cleaned_data['title']
+        self.file_path = form.cleaned_data['file']
+        models.Model.save(self)
+        with open('media/' + str(self.file_path), 'r') as genome_file:
+            genome_file.readline()
+            self.file = genome_file.read()
+            models.Model.save(self)
