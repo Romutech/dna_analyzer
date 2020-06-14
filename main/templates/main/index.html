@@ -9,8 +9,7 @@
       Liste des séquences ADN
     </h1>
     <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active">Liste des séquences</li>
+      <li><a href="#"><i class="active fa fa-dashboard"></i> Liste des séquences</a></li>
     </ol>
   </section>
 
@@ -46,7 +45,7 @@
                 <td>{{ dna.title }}</td>
                 <td>{{ dna.nb_bases }}</td>
                 <td>{{ dna.date }}</td>
-                <td><a href="{% url 'show' dna.id %}">voir</a></td>
+                <td><a href="{% url 'read' dna.id %}">voir</a></td>
               </tr>
               {% endfor %}
             </table>

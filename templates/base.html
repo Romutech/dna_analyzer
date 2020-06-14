@@ -32,7 +32,6 @@
   </head>
   <body class="skin-black">
     <div class="wrapper">
-      
       <header class="main-header">
         <!-- Logo -->
         <a href="{% url 'index' %}" class="logo"><b>DNA</b> Analyzer</a>
@@ -48,8 +47,27 @@
           </div>
         </nav>
       </header>
+    </div>
+      {% if messages %}
 
-      {% block content %}{% endblock %}
+       <div class="row">
+          <div class="col-md-12">
+            <div class="message-wrapper messages">
+              <ul class="messages">
+                {% for msg in messages %}
+                  <div class="alert alert-info alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    {{msg.message}}
+                  </div>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+       </div>
+      {% endif %}
+
+
+      {% block content %} {% endblock %}
 
       <!-- Left side column. contains the logo and sidebar -->
       <aside class="main-sidebar">
@@ -67,7 +85,7 @@
               </a>
               <ul class="treeview-menu">
                 <li>
-                  <a href="{% url 'genome_list' %}"><span>Listes des sequences</span></a>
+                  <a href="{% url 'index' %}"><span>Listes des sequences</span></a>
                 </li>
                 <li class="active">
                   <a href="{% url 'create' %}">Téléverser une sequence</a>

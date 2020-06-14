@@ -13,20 +13,21 @@ class Dna(models.Model):
         self.data['nb_t']
     """
 
-    title           = models.TextField(max_length=50)
+    title           = models.CharField(max_length=100, null=False)
     file            = models.TextField(null=True)
-    file_path       = models.FileField()
-    nb_bases        = models.TextField(max_length=500, null=True)
-    nb_a            = models.TextField(max_length=50, null=True)
-    nb_c            = models.TextField(max_length=50, null=True)
-    nb_g            = models.TextField(max_length=50, null=True)
-    nb_t            = models.TextField(max_length=50, null=True)
-    percentage_a    = models.TextField(max_length=50, null=True)
-    percentage_c    = models.TextField(max_length=50, null=True)
-    percentage_g    = models.TextField(max_length=50, null=True)
-    percentage_t    = models.TextField(max_length=50, null=True)
-    percentage_gc   = models.TextField(max_length=50, null=True)
-    percentage_at   = models.TextField(max_length=50, null=True)
+    file_path       = models.FileField(null=True)
+    note            = models.TextField(null=True)
+    nb_bases        = models.IntegerField(null=True)
+    nb_a            = models.IntegerField(null=True)
+    nb_c            = models.IntegerField(null=True)
+    nb_g            = models.IntegerField(null=True)
+    nb_t            = models.IntegerField(null=True)
+    percentage_a    = models.DecimalField(null=True, decimal_places=2, max_digits=5)
+    percentage_c    = models.DecimalField(null=True, decimal_places=2, max_digits=5)
+    percentage_g    = models.DecimalField(null=True, decimal_places=2, max_digits=5)
+    percentage_t    = models.DecimalField(null=True, decimal_places=2, max_digits=5)
+    percentage_gc   = models.DecimalField(null=True, decimal_places=2, max_digits=5)
+    percentage_at   = models.DecimalField(null=True, decimal_places=2, max_digits=5)
     date            = models.DateField(default=timezone.now, verbose_name="Date de création")
 
 
@@ -59,11 +60,11 @@ class Dna(models.Model):
         self.percentage_at = self.percentage_g + self.percentage_c
 
 
-    def save(self, form):
-        self.title = form.cleaned_data['title']
-        self.file_path = form.cleaned_data['file']
-        models.Model.save(self)
-        with open('media/' + str(self.file_path), 'r') as genome_file:
-            genome_file.readline()
-            self.file = genome_file.read()
-            models.Model.save(self)
+    # def save(self, form):
+    #     self.title = form.cleaned_data['title']
+    #     self.file_path = form.cleaned_data['file']
+    #     models.Model.save(self)
+    #     with open('media/' + str(self.file_path), 'r') as genome_file:
+    #         genome_file.readline()
+    #         self.file = genome_file.read()
+    #         models.Model.save(self)

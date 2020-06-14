@@ -5,7 +5,8 @@ from . import views
 urlpatterns = [
     path('', views.index, name="index"),
     path('create', views.create, name="create"),
-    path('genome_list', views.genome_list, name="genome_list"),
-    path('<id>', views.show, name="show"),
-    path('dna/<id>/analyze', views.analyze, name="analyze"),
+    path('<int:id>', views.read, name="read"),
+    path('update/<int:id>', views.update, name="update"),
+    path('delete/<int:id>', views.delete, name="delete"),
+    path('dna/<int:id>/analyze', views.analyze, name="analyze"),
 ]
