@@ -52,7 +52,7 @@
           <p>Pourcentage d'Adénine et de Thymine : <b>{{ dna.percentage_at }} %</b></p>
           <br>
       </div>
-    </div>
+
       <div class="col-md-2">
         {% if dna.file is not None %}
           <a href="{% url 'analyze' dna.id %}"><button class="btn btn-block btn-primary">Réanalyser la séquence</button></a>
@@ -71,15 +71,16 @@
       </div>
     {% endif %}
     <br>
-    <h2>Séquence ADN</h2>
-    {% if dna.file|length > 0 and dna.file|length < 1000000 %}
-      <p><i>{{ dna.file|linebreaks }}</i></p>
-    {% elif dna.file|length >= 1000000 %}
-      <p>La séquence ADN est trop longue pour être affichée ici !</p>
-    {% else %}
-      <p>La séquence ADN est vide !</p>
-    {% endif %}
-    </div>
+      <div class="col-md-12">
+        <h2>Séquence ADN</h2>
+        {% if dna.file|length > 0 and dna.file|length < 1000000 %}
+          <p><i>{{ dna.file|linebreaks }}</i></p>
+        {% elif dna.file|length >= 1000000 %}
+          <p>La séquence ADN est trop longue pour être affichée ici !</p>
+        {% else %}
+          <p>La séquence ADN est vide !</p>
+        {% endif %}
+      </div>
   </section>
 
 </div><!-- /.content-wrapper -->
