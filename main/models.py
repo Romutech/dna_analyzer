@@ -5,14 +5,6 @@ from django.utils import timezone
 
 
 class Dna(models.Model):
-    """
-        self.data['nb_bases']
-        self.data['nb_a']
-        self.data['nb_c']
-        self.data['nb_g']
-        self.data['nb_t']
-    """
-
     title           = models.CharField(max_length=100, null=False)
     file            = models.TextField(null=True)
     file_path       = models.FileField(null=True)
@@ -58,13 +50,3 @@ class Dna(models.Model):
     def percentage_GC_AT(self):
         self.percentage_gc = self.percentage_a + self.percentage_t
         self.percentage_at = self.percentage_g + self.percentage_c
-
-
-    # def save(self, form):
-    #     self.title = form.cleaned_data['title']
-    #     self.file_path = form.cleaned_data['file']
-    #     models.Model.save(self)
-    #     with open('media/' + str(self.file_path), 'r') as genome_file:
-    #         genome_file.readline()
-    #         self.file = genome_file.read()
-    #         models.Model.save(self)

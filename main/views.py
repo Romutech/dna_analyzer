@@ -5,7 +5,7 @@ from django.contrib import messages
 
 
 def index(request):
-    dnas = Dna.objects.all()
+    dnas = Dna.objects.order_by('-date')
     return render(request, 'main/index.html', locals())
 
 
