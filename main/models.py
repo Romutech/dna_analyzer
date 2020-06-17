@@ -4,7 +4,7 @@ from collections import Counter
 from django.utils import timezone
 
 
-class Dna(models.Model):
+class Sequence(models.Model):
     title           = models.CharField(max_length=100, null=False)
     file            = models.TextField(null=True)
     file_path       = models.FileField(null=True)

@@ -1,4 +1,4 @@
 from django.contrib import admin
-from .models import Dna
+from .models import Sequence
 
-admin.site.register(Dna)
+admin.site.register(Sequence)

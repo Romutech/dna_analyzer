@@ -1,16 +1,16 @@
 from django import forms
-from .models import Dna
+from .models import Sequence
 
-class DnaForm(forms.ModelForm):
+class SequenceForm(forms.ModelForm):
     class Meta:
-        model = Dna
+        model = Sequence
         fields = ('title', 'file_path', 'note',)
 
 
     def save(self):
-        dna = super().save()
-        with open('media/' + str(dna.file_path), 'r') as genome_file:
+        sequence = super().save()
+        with open('media/' + str(sequence.file_path), 'r') as genome_file:
              genome_file.readline()
-             dna.file = genome_file.read()
-             dna.save()
-        return dna
+             sequence.file = genome_file.read()
+             sequence.save()
+        return sequence

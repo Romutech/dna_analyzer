@@ -1,51 +1,56 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import DnaForm
+from .forms import SequenceForm
 from .models import *
 from django.contrib import messages
+from django.core.paginator import Paginator, EmptyPage
 
+def index(request, page=1):
+    sequences = Sequence.objects.order_by('-date')
+    paginator = Paginator(sequences, 2, 1)
+    try:
+        sequences = paginator.page(page)
+    except EmptyPage:
+        sequences = paginator.page(paginator.num_pages)
 
-def index(request):
-    dnas = Dna.objects.order_by('-date')
     return render(request, 'main/index.html', locals())
 
 
 def create(request):
     if request.method == 'POST':
-        form = DnaForm(request.POST, request.FILES)
+        form = SequenceForm(request.POST, request.FILES)
         if form.is_valid():
             return redirect('read', form.save().id)
-    form = DnaForm()
-    return render(request, 'main/dna_form.html', locals())
+    form = SequenceForm()
+    return render(request, 'main/sequence_form.html', locals())
 
 
 def read(request, id):
-    dna = get_object_or_404(Dna, id=id)
-    if dna.nb_bases is not None:
-        dna.nb_bases = int(dna.nb_bases)
+    sequence = get_object_or_404(Sequence, id=id)
+    if sequence.nb_bases is not None:
+        sequence.nb_bases = int(sequence.nb_bases)
     return render(request, 'main/read.html', locals())
 
 
 def update(request, id):
-    dna = get_object_or_404(Dna, id=id)
+    sequence = get_object_or_404(Sequence, id=id)
     if request.method == 'POST':
-        form = DnaForm(request.POST, request.FILES, instance=dna)
+        form = SequenceForm(request.POST, request.FILES, instance=sequence)
         if form.is_valid():
             form.save()
-            print("test")
             return redirect('read', id)
     else:
-        form = DnaForm(instance=dna)
-    return render(request, 'main/dna_form.html', locals())
+        form = SequenceForm(instance=sequence)
+    return render(request, 'main/sequence_form.html', locals())
 
 
 def delete(request, id):
-    dna = get_object_or_404(Dna, id=id)
-    dna.delete()
+    sequence = get_object_or_404(Sequence, id=id)
+    sequence.delete()
     messages.add_message(request, messages.SUCCESS, 'La séquence ADN a bien été supprimée !')
     return redirect('index')
 
 
 def analyze(request, id):
-    dna = get_object_or_404(Dna, id=id)
-    dna.analyse()
+    sequence = get_object_or_404(Sequence, id=id)
+    sequence.analyse()
     return redirect('read', id)

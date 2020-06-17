@@ -7,7 +7,7 @@
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <section class="content-header">
-    <h1>{{ dna.title }}</h1>
+    <h1>{{ sequence.title }}</h1>
     <ol class="breadcrumb">
       <li><a href="{% url 'index' %}"><i class="active fa fa-dashboard"></i> Liste des séquences</a></li>
       <li class="active">séquence</li>
@@ -23,47 +23,47 @@
         <nav class="navbar navbar-static-top" role="navigation">
           <div  class="primary navbar-custom-menu">
             <div class="col-md-6">
-              <a href="{% url 'update' dna.id %}"><button class="btn btn-block btn-warning">Mettre à jour la séquence</button></a>
+              <a href="{% url 'update' sequence.id %}"><button class="btn btn-block btn-warning">Mettre à jour la séquence</button></a>
             </div>
             <div class="col-md-6">
-              <a href="{% url 'delete' dna.id %}"><button class="btn btn-block btn-danger" onclick="return confirm('Etes-vous sûr de vouloir surppimer cette séquence ?');">Supprimer la séquence</button></a>
+              <a href="{% url 'delete' sequence.id %}"><button class="btn btn-block btn-danger" onclick="return confirm('Etes-vous sûr de vouloir surppimer cette séquence ?');">Supprimer la séquence</button></a>
             </div>
           </div>
         </nav>
       </div>
       <div class="col-md-12">
         <h2>Dénomination de la sequence</h2>
-        <p>Nom de la séquence ADN : <b>{{ dna.title }}</b></p>
-        <p>Nom du fichier Téléverser : <b>{{ dna.file_path }}</b></p>
-        <p>ID : <b>{{ dna.id }}</b></p>
-        <p>Note : <b>{{ dna.note }}</b></p>
+        <p>Nom de la séquence ADN : <b>{{ sequence.title }}</b></p>
+        <p>Nom du fichier Téléverser : <b>{{ sequence.file_path }}</b></p>
+        <p>ID : <b>{{ sequence.id }}</b></p>
+        <p>Note : <b>{{ sequence.note }}</b></p>
         <h2>Données statistiques de la séquence</h2>
-        {% if dna.nb_bases is not None %}
-          <p>Nombre de base composant la séquence : <b>{{ dna.nb_bases }}</b></p>
-          <p>Nombre d'Adénine : <b>{{ dna.nb_a }}</b></p>
-          <p>Nombre de Cytosine : <b>{{ dna.nb_c }}</b></p>
-          <p>Nombre de Guanine : <b>{{ dna.nb_g }}</b></p>
-          <p>Nombre de Thymine : <b>{{ dna.nb_t }}</b></p>
-          <p>Pourcentage d'Adénine : <b>{{ dna.percentage_a }} %</b></p>
-          <p>Pourcentage de Cytosine : <b>{{ dna.percentage_c }} %</b></p>
-          <p>Pourcentage de Guanine : <b>{{ dna.percentage_g }} %</b></p>
-          <p>Pourcentage de Thymine : <b>{{ dna.percentage_t }} %</b></p>
-          <p>Pourcentage de Guanine et de Cytosine : <b>{{ dna.percentage_gc }} %</b></p>
-          <p>Pourcentage d'Adénine et de Thymine : <b>{{ dna.percentage_at }} %</b></p>
+        {% if sequence.nb_bases is not None %}
+          <p>Nombre de base composant la séquence : <b>{{ sequence.nb_bases }}</b></p>
+          <p>Nombre d'Adénine : <b>{{ sequence.nb_a }}</b></p>
+          <p>Nombre de Cytosine : <b>{{ sequence.nb_c }}</b></p>
+          <p>Nombre de Guanine : <b>{{ sequence.nb_g }}</b></p>
+          <p>Nombre de Thymine : <b>{{ sequence.nb_t }}</b></p>
+          <p>Pourcentage d'Adénine : <b>{{ sequence.percentage_a }} %</b></p>
+          <p>Pourcentage de Cytosine : <b>{{ sequence.percentage_c }} %</b></p>
+          <p>Pourcentage de Guanine : <b>{{ sequence.percentage_g }} %</b></p>
+          <p>Pourcentage de Thymine : <b>{{ sequence.percentage_t }} %</b></p>
+          <p>Pourcentage de Guanine et de Cytosine : <b>{{ sequence.percentage_gc }} %</b></p>
+          <p>Pourcentage d'Adénine et de Thymine : <b>{{ sequence.percentage_at }} %</b></p>
           <br>
       </div>
 
       <div class="col-md-2">
-        {% if dna.file is not None %}
-          <a href="{% url 'analyze' dna.id %}"><button class="btn btn-block btn-primary">Réanalyser la séquence</button></a>
+        {% if sequence.file is not None %}
+          <a href="{% url 'analyze' sequence.id %}"><button class="btn btn-block btn-primary">Réanalyser la séquence</button></a>
         {% endif %}
       </div>
     {% else %}
       <div class="row">
         <div class="col-md-6">
           <p><b>Pas de données statistique pour le moment !</b></p>
-          {% if dna.file is not None %}
-            <a href="{% url 'analyze' dna.id %}"><button class="btn btn-block btn-primary btn-lg">Analyser la séquence</button></a>
+          {% if sequence.file is not None %}
+            <a href="{% url 'analyze' sequence.id %}"><button class="btn btn-block btn-primary btn-lg">Analyser la séquence</button></a>
           {% else %}
             <p>La séquence ADN est vide, vous ne pouvez par conséquent pas l'analyser !</p>
           {% endif %}
@@ -73,9 +73,9 @@
     <br>
       <div class="col-md-12">
         <h2>Séquence ADN</h2>
-        {% if dna.file|length > 0 and dna.file|length < 1000000 %}
-          <p><i>{{ dna.file|linebreaks }}</i></p>
-        {% elif dna.file|length >= 1000000 %}
+        {% if sequence.file|length > 0 and sequence.file|length < 1000000 %}
+          <p><i>{{ sequence.file|linebreaks }}</i></p>
+        {% elif sequence.file|length >= 1000000 %}
           <p>La séquence ADN est trop longue pour être affichée ici !</p>
         {% else %}
           <p>La séquence ADN est vide !</p>

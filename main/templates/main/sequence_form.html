@@ -11,7 +11,7 @@
     <ol class="breadcrumb">
       <li><a href="{% url 'index' %}"><i class="active fa fa-dashboard"></i> Liste des séquences</a></li>
       {% if "update" in request.path %}
-        <li><a href="{% url 'read' dna.id%}"> {{ dna.title }}</a></li>
+        <li><a href="{% url 'read' sequence.id%}"> {{ sequence.title }}</a></li>
         <li> Mise à jour de la séquence</li>
       {% else %}
         <li> Création d'une séquence</li>
@@ -25,7 +25,7 @@
     <div class="row">
       <div class="col-md-2 col-md-offset-4">
         {% if "update" in request.path %}
-        <form action="{% url 'update' dna.id %}" method="post" enctype="multipart/form-data">
+        <form action="{% url 'update' sequence.id %}" method="post" enctype="multipart/form-data">
         {% else %}
         <form action="{% url 'create' %}" method="post" enctype="multipart/form-data">
           {% endif %}

@@ -15,7 +15,7 @@
 
   <!-- Main content -->
   <section class="content">
-    <h1>Bienvenue sur l'application en ligne DNA Analyzer</h1>
+    <h1>Bienvenue sur l'application en ligne sequence Analyzer</h1>
     <div class="row">
       <div class="col-xs-12">
         <div class="box">
@@ -39,13 +39,13 @@
                 <th>Date</th>
                 <th>Actions</th>
               </tr>
-              {% for dna in dnas %}
+              {% for sequence in sequences %}
               <tr>
-                <th>{{ dna.id }}</th>
-                <td>{{ dna.title }}</td>
-                <td>{{ dna.nb_bases }}</td>
-                <td>{{ dna.date }}</td>
-                <td><a href="{% url 'read' dna.id %}">voir</a></td>
+                <th>{{ sequence.id }}</th>
+                <td>{{ sequence.title }}</td>
+                <td>{{ sequence.nb_bases }}</td>
+                <td>{{ sequence.date }}</td>
+                <td><a href="{% url 'read' sequence.id %}">voir</a></td>
               </tr>
               {% endfor %}
             </table>
@@ -53,6 +53,19 @@
         </div><!-- /.box -->
       </div>
     </div>
+    <div class="col-md-3 col-md-offset-4">
+         {% if sequences.has_previous %}
+             <a class="btn btn-default" href="{% url 'index' sequences.previous_page_number %}">Précédente</a>
+         {% endif %}
+
+         <span>
+           <b>Page {{ sequences.number }} sur {{ sequences.paginator.num_pages }}</b>
+         </span>
+
+         {% if sequences.has_next %}
+              <a class="btn btn-default" href="{% url 'index' sequences.next_page_number %}">Suivante</a>
+         {% endif %}
+      </div>
   </section>
 </div>
 {% endblock %}
