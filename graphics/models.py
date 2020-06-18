@@ -47,9 +47,7 @@ class Graph():
         return distance
 
 
-    def dna_walk_graph_configuration (self): 
-        turtle.pensize(1)
-        self.show_graphic_title()
+    def dna_walk_graph_configuration (self):
         self.size_window = int(self.data['nb_bases'] / 1000)
         result = self.data['nb_t'] - self.data['nb_a']
         self.distance = self.get_distance()

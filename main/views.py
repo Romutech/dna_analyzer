@@ -4,28 +4,15 @@ from .models import *
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage
 
-from django.shortcuts import render
-from matplotlib import pyplot as plt
-import io
-import urllib, base64
-import matplotlib
-matplotlib.use('Agg')
-
-def home(request):
-    plt.plot(range(10))
-    fig = plt.gcf()
-    #convert graph into dtring buffer and then we convert 64 bit code into image
-    buf = io.BytesIO()
-    fig.savefig(buf,format='png')
-    buf.seek(0)
-    string = base64.b64encode(buf.read())
-    uri =  urllib.parse.quote(string)
-    return render(request,'main/home.html',{'data':uri})
+def home(request, id):
+    sequence = get_object_or_404(Sequence, id=id)
+    uri = sequence.graph_image_generation(sequence.ratio_g_c_graph())
+    return render(request, 'main/home.html',{'data':uri})
 
 
 def index(request, page=1):
-    sequences = Sequence.objects.order_by('-date')
-    paginator = Paginator(sequences, 2, 1)
+    sequences = Sequence.objects.order_by('-id')
+    paginator = Paginator(sequences, 20, 5)
     try:
         sequences = paginator.page(page)
     except EmptyPage:

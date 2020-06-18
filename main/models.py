@@ -2,6 +2,11 @@ from django.db import models
 from collections import Counter
 
 from django.utils import timezone
+from matplotlib import pyplot as plt
+import io
+import urllib, base64
+import matplotlib
+matplotlib.use('Agg')
 
 
 class Sequence(models.Model):
@@ -50,3 +55,59 @@ class Sequence(models.Model):
     def percentage_GC_AT(self):
         self.percentage_gc = self.percentage_a + self.percentage_t
         self.percentage_at = self.percentage_g + self.percentage_c
+
+
+    def graph_image_generation(self, plt):
+        fig = plt.gcf()
+        buf = io.BytesIO()
+        fig.savefig(buf, format='png', dpi=500)
+        buf.seek(0)
+        string = base64.b64encode(buf.read())
+        uri = urllib.parse.quote(string)
+        return uri
+
+
+    def ratio_g_c_graph(self):
+        number_windows_incremented = number_window_size_incremented = index_file = nb_g = nb_c = 0
+        nb_windows = 1000
+        ordinate = []
+        abscissa = []
+        size_window = 10
+        if 1000 < self.nb_bases:
+            size_window = self.nb_bases // nb_windows
+            nb_windows = self.determine_number_of_windows(nb_windows, size_window)
+        plt.figure(figsize=(11.5, 5.2))
+        plt.gca().set_xlabel('Nombre de fenêtres \n(' + str(size_window) + ' nucléotides par fenêtre)')
+        while number_windows_incremented < nb_windows:
+            while number_window_size_incremented < size_window and index_file < self.nb_bases:
+                if 'g' == str(self.file[index_file]).lower():
+                    nb_g += 1
+                elif 'c' == str(self.file[index_file]).lower():
+                    nb_c += 1
+                number_window_size_incremented += 1
+                index_file += 1
+            number_windows_incremented += 1
+            if 0 == (nb_g + nb_c):
+                ratio_g_c = 0
+            else:
+                ratio_g_c = (nb_g - nb_c) / (nb_g + nb_c)
+            ordinate.append(ratio_g_c)
+            number_window_size_incremented = 0
+            nb_g = nb_c = 0
+        [abscissa.append(nb) for nb in range(len(ordinate))]
+        plt.plot(abscissa, ordinate, linewidth=1)
+        plt.plot(abscissa, [0 for nb in range(len(ordinate))], "r")
+        plt.axis([1, len(ordinate), -1, 1])
+        plt.grid(True)
+        return plt
+
+
+    def determine_number_of_windows(self, nb_windows, size_window):
+        rest = self.nb_bases % nb_windows
+        if rest > size_window:
+            while rest > size_window:
+                nb_windows = nb_windows + (rest // size_window)
+                rest = rest % size_window
+        if rest > 0:
+            nb_windows += 1
+        return nb_windows
