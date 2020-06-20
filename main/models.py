@@ -1,32 +1,31 @@
 from django.db import models
-from collections import Counter
-
 from django.utils import timezone
 from matplotlib import pyplot as plt
-import io
-import urllib, base64
 import matplotlib
+from collections import Counter
+import urllib, base64
+import io
+
 matplotlib.use('Agg')
 
-
 class Sequence(models.Model):
-    title           = models.CharField(max_length=100, null=False)
-    file            = models.TextField(null=True)
-    file_path       = models.FileField(null=True)
-    note            = models.TextField(null=True)
-    nb_bases        = models.IntegerField(null=True)
-    nb_a            = models.IntegerField(null=True)
-    nb_c            = models.IntegerField(null=True)
-    nb_g            = models.IntegerField(null=True)
-    nb_t            = models.IntegerField(null=True)
-    percentage_a    = models.DecimalField(null=True, decimal_places=2, max_digits=5)
-    percentage_c    = models.DecimalField(null=True, decimal_places=2, max_digits=5)
-    percentage_g    = models.DecimalField(null=True, decimal_places=2, max_digits=5)
-    percentage_t    = models.DecimalField(null=True, decimal_places=2, max_digits=5)
-    percentage_gc   = models.DecimalField(null=True, decimal_places=2, max_digits=5)
-    percentage_at   = models.DecimalField(null=True, decimal_places=2, max_digits=5)
+    title                = models.CharField(max_length=100, null=False)
+    file                 = models.TextField(null=True)
+    file_path            = models.FileField(null=True)
+    note                 = models.TextField(null=True)
+    nb_bases             = models.IntegerField(null=True)
+    nb_a                 = models.IntegerField(null=True)
+    nb_c                 = models.IntegerField(null=True)
+    nb_g                 = models.IntegerField(null=True)
+    nb_t                 = models.IntegerField(null=True)
+    percentage_a         = models.DecimalField(null=True, decimal_places=2, max_digits=5)
+    percentage_c         = models.DecimalField(null=True, decimal_places=2, max_digits=5)
+    percentage_g         = models.DecimalField(null=True, decimal_places=2, max_digits=5)
+    percentage_t         = models.DecimalField(null=True, decimal_places=2, max_digits=5)
+    percentage_gc        = models.DecimalField(null=True, decimal_places=2, max_digits=5)
+    percentage_at        = models.DecimalField(null=True, decimal_places=2, max_digits=5)
     ratio_g_c_graph_data = models.TextField(null=False)
-    date            = models.DateField(default=timezone.now, verbose_name="Date de création")
+    date                 = models.DateField(default=timezone.now, verbose_name="Date de création")
 
 
     def analyse(self):
@@ -69,36 +68,19 @@ class Sequence(models.Model):
 
 
     def ratio_g_c_graph(self):
-        number_windows_incremented = number_window_size_incremented = index_file = nb_g = nb_c = 0
         nb_windows = 1000
-        ordinate = []
         abscissa = []
         size_window = 10
-        if 1000 < self.nb_bases:
+        if nb_windows < self.nb_bases:
             size_window = self.nb_bases // nb_windows
             nb_windows = self.determine_number_of_windows(nb_windows, size_window)
-        plt.figure(figsize=(11.5, 5.2))
-        plt.gca().set_xlabel('Nombre de fenêtres \n(' + str(size_window) + ' nucléotides par fenêtre)')
-        while number_windows_incremented < nb_windows:
-            while number_window_size_incremented < size_window and index_file < self.nb_bases:
-                if 'g' == str(self.file[index_file]).lower():
-                    nb_g += 1
-                elif 'c' == str(self.file[index_file]).lower():
-                    nb_c += 1
-                number_window_size_incremented += 1
-                index_file += 1
-            number_windows_incremented += 1
-            if 0 == (nb_g + nb_c):
-                ratio_g_c = 0
-            else:
-                ratio_g_c = (nb_g - nb_c) / (nb_g + nb_c)
-            ordinate.append(ratio_g_c)
-            number_window_size_incremented = 0
-            nb_g = nb_c = 0
+        plt.figure(figsize=(11.5, 4))
+        plt.gca().set_xlabel('Nombre de fenêtres (' + str(size_window) + ' nucléotides par fenêtre)')
+        ordinate = self.determine_ration_c_g(nb_windows, size_window)
         [abscissa.append(nb) for nb in range(len(ordinate))]
         plt.plot(abscissa, ordinate, linewidth=1)
-        plt.plot(abscissa, [0 for nb in range(len(ordinate))], "r")
-        plt.axis([1, len(ordinate), -1, 1])
+        plt.plot(abscissa, [0 for _ in range(len(ordinate))], "r")
+        plt.axis([0, len(ordinate), -1, 1])
         plt.grid(True)
         self.graph_image_generation(plt)
 
@@ -112,3 +94,25 @@ class Sequence(models.Model):
         if rest > 0:
             nb_windows += 1
         return nb_windows
+
+
+    def determine_ration_c_g(self, nb_windows, size_window):
+        number_windows_incremented = number_window_size_incremented = index_file = nb_g = nb_c = 0
+        ratios = []
+        while number_windows_incremented < nb_windows:
+            while number_window_size_incremented < size_window and index_file < self.nb_bases:
+                if 'g' == str(self.file[index_file]).lower():
+                    nb_g += 1
+                elif 'c' == str(self.file[index_file]).lower():
+                    nb_c += 1
+                number_window_size_incremented += 1
+                index_file += 1
+            number_windows_incremented += 1
+            if 0 == (nb_g + nb_c):
+                ratio_g_c = 0
+            else:
+                ratio_g_c = (nb_g - nb_c) / (nb_g + nb_c)
+            ratios.append(ratio_g_c)
+            number_window_size_incremented = 0
+            nb_g = nb_c = 0
+        return ratios
