@@ -4,12 +4,6 @@ from .models import *
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage
 
-def home(request, id):
-    sequence = get_object_or_404(Sequence, id=id)
-    uri = sequence.graph_image_generation(sequence.ratio_g_c_graph())
-    return render(request, 'main/home.html',{'data':uri})
-
-
 def index(request, page=1):
     sequences = Sequence.objects.order_by('-id')
     paginator = Paginator(sequences, 20, 5)
@@ -59,5 +53,8 @@ def delete(request, id):
 def analyze(request, id):
     sequence = get_object_or_404(Sequence, id=id)
     sequence.analyse()
+    uri = sequence.graph_image_generation(sequence.ratio_g_c_graph())
+    sequence.ratio_g_c_graph_data = uri
+    sequence.save()
     return redirect('read', id)
 
