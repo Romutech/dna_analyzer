@@ -11,7 +11,7 @@ def index(request, page=1):
         sequences = paginator.page(page)
     except EmptyPage:
         sequences = paginator.page(paginator.num_pages)
-    return render(request, 'main/index.html', locals())
+    return render(request, 'analyse/index.html', locals())
 
 
 def create(request):
@@ -20,14 +20,14 @@ def create(request):
         if form.is_valid():
             return redirect('read', form.save().id)
     form = SequenceForm()
-    return render(request, 'main/sequence_form.html', locals())
+    return render(request, 'analyse/sequence_form.html', locals())
 
 
 def read(request, id):
     sequence = get_object_or_404(Sequence, id=id)
     if sequence.nb_bases is not None:
         sequence.nb_bases = int(sequence.nb_bases)
-    return render(request, 'main/read.html', locals())
+    return render(request, 'analyse/read.html', locals())
 
 
 def update(request, id):
@@ -39,7 +39,7 @@ def update(request, id):
             return redirect('read', id)
     else:
         form = SequenceForm(instance=sequence)
-    return render(request, 'main/sequence_form.html', locals())
+    return render(request, 'analyse/sequence_form.html', locals())
 
 
 def delete(request, id):

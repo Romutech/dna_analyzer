@@ -87,7 +87,7 @@ class Sequence(models.Model):
             ordinate.append(y)
             abscissa.append(x)
         plt.figure(figsize=(10, 10))
-        plt.plot(abscissa, ordinate, linewidth=0.5)
+        plt.plot(abscissa, ordinate, "black", linewidth=0.7, )
         plt.grid(True)
         self.dna_walk_graph_data = self.graph_image_generation(plt)
         self.save()

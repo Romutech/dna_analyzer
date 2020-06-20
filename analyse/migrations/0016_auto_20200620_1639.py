@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('main', '0015_sequence_ratio_g_c_graph_data'),
+        ('analyse', '0015_sequence_ratio_g_c_graph_data'),
     ]
 
     operations = [
