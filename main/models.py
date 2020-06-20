@@ -6,6 +6,9 @@ from collections import Counter
 import urllib, base64
 import io
 
+import numpy
+import random
+
 matplotlib.use('Agg')
 
 class Sequence(models.Model):
@@ -24,7 +27,8 @@ class Sequence(models.Model):
     percentage_t         = models.DecimalField(null=True, decimal_places=2, max_digits=5)
     percentage_gc        = models.DecimalField(null=True, decimal_places=2, max_digits=5)
     percentage_at        = models.DecimalField(null=True, decimal_places=2, max_digits=5)
-    ratio_g_c_graph_data = models.TextField(null=False)
+    ratio_g_c_graph_data = models.TextField(null=True)
+    dna_walk_graph_data  = models.TextField(null=True)
     date                 = models.DateField(default=timezone.now, verbose_name="Date de création")
 
 
@@ -63,9 +67,30 @@ class Sequence(models.Model):
         fig.savefig(buf, format='png', dpi=500)
         buf.seek(0)
         string = base64.b64encode(buf.read())
-        self.ratio_g_c_graph_data = urllib.parse.quote(string)
-        self.save()
+        plt.close(fig)
+        return urllib.parse.quote(string)
 
+
+    def dna_walk_graph(self):
+        abscissa = []
+        ordinate = []
+        x = y = 0
+        for nucleotide in self.file:
+            if 'a' == nucleotide.lower():
+                y += 1
+            elif 'c' == nucleotide.lower():
+                x += 1
+            elif 'g' == nucleotide.lower():
+                x -= 1
+            elif 't' == nucleotide.lower():
+                y -= 1
+            ordinate.append(y)
+            abscissa.append(x)
+        plt.figure(figsize=(10, 10))
+        plt.plot(abscissa, ordinate, linewidth=0.5)
+        plt.grid(True)
+        self.dna_walk_graph_data = self.graph_image_generation(plt)
+        self.save()
 
     def ratio_g_c_graph(self):
         nb_windows = 1000
@@ -82,7 +107,8 @@ class Sequence(models.Model):
         plt.plot(abscissa, [0 for _ in range(len(ordinate))], "r")
         plt.axis([0, len(ordinate), -1, 1])
         plt.grid(True)
-        self.graph_image_generation(plt)
+        self.ratio_g_c_graph_data = self.graph_image_generation(plt)
+        self.save()
 
 
     def determine_number_of_windows(self, nb_windows, size_window):

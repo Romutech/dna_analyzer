@@ -53,5 +53,6 @@ def analyze(request, id):
     sequence = get_object_or_404(Sequence, id=id)
     sequence.analyse()
     sequence.ratio_g_c_graph()
+    sequence.dna_walk_graph()
     return redirect('read', id)
 

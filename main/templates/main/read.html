@@ -54,13 +54,12 @@
       </div>
 
       <div class="col-md-2">
-        {% if sequence.file is not None %}
+        {% if sequence.file %}
         <p><a href="{% url 'analyze' sequence.id %}"><button class="btn btn-block btn-primary">Réanalyser la séquence</button></a></p>
         {% endif %}
       </div>
     {% else %}
     </div>
-    <div class="row">
       <div class="col-md-6">
         <p><b>Pas de données statistique pour le moment !</b></p>
         {% if sequence.file is not None %}
@@ -71,12 +70,19 @@
       </div>
 
     {% endif %}
-
+    {% if sequence.ratio_g_c_graph_data %}
        <div class="col-md-12"">
-          <h2>Graphique de ratio de C et G</h2>
+          <h2>Graphique ratio de Cytosine et Guanine</h2>
       </div>
        <img class="col-md-12" src="data:image/png;base64,{{ sequence.ratio_g_c_graph_data }}" alt="">
-
+    {% endif %}
+    {% if sequence.dna_walk_graph_data %}
+       <div class="col-md-12"">
+          <br>
+          <h2>Graphique DNA Walk</h2>
+      </div>
+       <img class="col-md-9" src="data:image/png;base64,{{ sequence.dna_walk_graph_data }}" alt="">
+    {% endif %}
 
     <br>
       <div class="col-md-12">
@@ -89,6 +95,7 @@
           <p>La séquence ADN est vide !</p>
         {% endif %}
       </div>
+  </section>
   </section>
 
 </div><!-- /.content-wrapper -->
