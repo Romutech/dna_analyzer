@@ -11,7 +11,6 @@ def index(request, page=1):
         sequences = paginator.page(page)
     except EmptyPage:
         sequences = paginator.page(paginator.num_pages)
-
     return render(request, 'main/index.html', locals())
 
 
@@ -53,8 +52,6 @@ def delete(request, id):
 def analyze(request, id):
     sequence = get_object_or_404(Sequence, id=id)
     sequence.analyse()
-    uri = sequence.graph_image_generation(sequence.ratio_g_c_graph())
-    sequence.ratio_g_c_graph_data = uri
-    sequence.save()
+    sequence.ratio_g_c_graph()
     return redirect('read', id)
 

@@ -64,8 +64,8 @@ class Sequence(models.Model):
         fig.savefig(buf, format='png', dpi=500)
         buf.seek(0)
         string = base64.b64encode(buf.read())
-        uri = urllib.parse.quote(string)
-        return uri
+        self.ratio_g_c_graph_data = urllib.parse.quote(string)
+        self.save()
 
 
     def ratio_g_c_graph(self):
@@ -100,7 +100,7 @@ class Sequence(models.Model):
         plt.plot(abscissa, [0 for nb in range(len(ordinate))], "r")
         plt.axis([1, len(ordinate), -1, 1])
         plt.grid(True)
-        return plt
+        self.graph_image_generation(plt)
 
 
     def determine_number_of_windows(self, nb_windows, size_window):
