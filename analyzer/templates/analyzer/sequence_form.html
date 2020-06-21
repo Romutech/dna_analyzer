@@ -25,6 +25,7 @@
                     {% endif %}
                     {% csrf_token %}
                     {{ form.as_p }}
+                    <input type="hidden" name="user" value="{{ user.id }}">
                     <input type="submit" value="Enregistrer la séquence" />
                 </form>
             </div>

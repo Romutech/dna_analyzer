@@ -6,6 +6,8 @@ from collections import Counter
 import urllib, base64
 import io
 
+from django.contrib.auth.models import User
+
 import numpy
 import random
 
@@ -16,6 +18,7 @@ class Sequence(models.Model):
     file                 = models.TextField(null=True)
     file_path            = models.FileField(null=True)
     note                 = models.TextField(null=True)
+    user                 = models.ForeignKey(User, on_delete=models.CASCADE)
     nb_bases             = models.IntegerField(null=True)
     nb_a                 = models.IntegerField(null=True)
     nb_c                 = models.IntegerField(null=True)

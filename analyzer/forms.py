@@ -4,11 +4,12 @@ from .models import Sequence
 class SequenceForm(forms.ModelForm):
     class Meta:
         model = Sequence
-        fields = ('title', 'file_path', 'note',)
+        fields = ('title', 'file_path', 'note')
 
 
-    def save(self):
-        sequence = super().save()
+    def save(self, user_id):
+        sequence = super().save(commit=False)
+        sequence.user_id = user_id
         with open('media/' + str(sequence.file_path), 'r') as genome_file:
              genome_file.readline()
              sequence.file = genome_file.read()

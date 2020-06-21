@@ -22,5 +22,6 @@ settings.DEBUG = True
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('analyse.urls')),
+    path('', include('analyzer.urls')),
+    path('user/', include('user.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

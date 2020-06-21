@@ -46,7 +46,7 @@
                     <br>
                 {% endif %}
             </div>
-            {% if sequence.file %}
+            {% if sequence.nb_bases %}
                 <div class="col-md-2">
                     <p><a href="{% url 'analyze' sequence.id %}"><button class="btn btn-block btn-primary">Réanalyser la séquence</button></a></p>
                 </div>

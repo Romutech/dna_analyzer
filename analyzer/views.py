@@ -11,23 +11,23 @@ def index(request, page=1):
         sequences = paginator.page(page)
     except EmptyPage:
         sequences = paginator.page(paginator.num_pages)
-    return render(request, 'analyse/index.html', locals())
+    return render(request, 'analyzer/index.html', locals())
 
 
 def create(request):
     if request.method == 'POST':
         form = SequenceForm(request.POST, request.FILES)
         if form.is_valid():
-            return redirect('read', form.save().id)
+            return redirect('read', form.save(request.POST['user']).id)
     form = SequenceForm()
-    return render(request, 'analyse/sequence_form.html', locals())
+    return render(request, 'analyzer/sequence_form.html', locals())
 
 
 def read(request, id):
     sequence = get_object_or_404(Sequence, id=id)
     if sequence.nb_bases is not None:
         sequence.nb_bases = int(sequence.nb_bases)
-    return render(request, 'analyse/read.html', locals())
+    return render(request, 'analyzer/read.html', locals())
 
 
 def update(request, id):
@@ -39,7 +39,7 @@ def update(request, id):
             return redirect('read', id)
     else:
         form = SequenceForm(instance=sequence)
-    return render(request, 'analyse/sequence_form.html', locals())
+    return render(request, 'analyzer/sequence_form.html', locals())
 
 
 def delete(request, id):

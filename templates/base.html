@@ -49,11 +49,31 @@
                       <li class="header">MENU</li>
                       <li class="active treeview">
                           <a href="#">
+                              <i class="fa fa-dashboard"></i> <span>UTILISATEUR</span> <i class="fa fa-angle-left pull-right"></i>
+                          </a>
+                          <ul class="treeview-menu">
+                              {% if user.is_active %}
+                                  <li>
+                                      <a href="{% url 'user_logout' %}">Déconnexion</a>
+                                  </li>
+                              {% else %}
+                                  <li>
+                                      <a href="{% url 'user_login' %}">Connexion</a>
+                                  </li>
+                                  <li>
+                                      <a href="{% url 'user_register' %}">Inscription</a>
+                                  </li>
+                              {% endif %}
+
+                          </ul>
+                      </li>
+                      <li class="treeview">
+                          <a href="#">
                               <i class="fa fa-dashboard"></i> <span>ADN</span> <i class="fa fa-angle-left pull-right"></i>
                           </a>
                           <ul class="treeview-menu">
                               <li>
-                                  <a href="{% url 'index' %}"><span>Listes des sequences</span></a>
+                                  <a href="{% url 'index' %}">Listes des sequences</a>
                               </li>
                               <li class="active">
                                   <a href="{% url 'create' %}">Téléverser une sequence</a>
