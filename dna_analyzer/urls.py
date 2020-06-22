@@ -24,4 +24,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('analyzer.urls')),
     path('user/', include('user.urls')),
+    path('matching/', include('dna_matching.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
