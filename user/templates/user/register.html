@@ -1,21 +1,39 @@
-{% extends 'base.html' %}
-
+{% extends "base.html" %}
+{% load static %}
 {% block content %}
-  <h2>Sign up</h2>
-  <form method="post" action="{% url 'user_register' %}" method="POST">
-    {% csrf_token %}
-    {% for field in form %}
-      <p>
-        {{ field.label_tag }}<br>
-        {{ field }}
-        {% if field.help_text %}
-          <small style="color: grey">{{ field.help_text }}</small>
-        {% endif %}
-        {% for error in field.errors %}
-          <p style="color: red">{{ error }}</p>
-        {% endfor %}
-      </p>
-    {% endfor %}
-    <button type="submit">Sign up</button>
-  </form>
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>Formulaire de connexion</h1>
+        <ol class="breadcrumb">
+            <li><i class="active fa fa-dashboard"></i> Connexion</li>
+        </ol>
+    </section>
+    <section class="content">
+        <br>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <form method="post" action="{% url 'user_register' %}" method="POST">
+                    {% csrf_token %}
+                    {% for field in form %}
+                    <p>
+                        <p>
+                            <br>
+                            {{ field.label_tag }}<br>
+                            {{ field }}
+                        </p>
+                        <p>{% if field.help_text %}</p>
+                            <small style="color: grey; font-size: 1em">{{ field.help_text }}</small>
+                        {% endif %}
+                        {% for error in field.errors %}
+                            <p style="color: red">{{ error }}</p>
+                        {% endfor %}
+                    </p>
+                    {% endfor %}
+                    <br>
+                    <button type="submit">Enregistrement</button>
+                </form>
+            </div>
+        </div>
+    </section>
+</div>
 {% endblock %}

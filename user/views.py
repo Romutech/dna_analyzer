@@ -11,14 +11,12 @@ def user_login(request):
 
 
 def user_logout(request):
-    if not request.user.is_active:
-        return redirect('user_login')
     logout(request)
     return redirect('index')
 
 
 def user_register(request):
-    if not request.user.is_active:
+    if request.user.is_active:
         return redirect('index')
     if request.method == 'POST':
         form = UserCreationForm(request.POST)

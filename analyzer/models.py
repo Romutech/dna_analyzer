@@ -5,13 +5,9 @@ import matplotlib
 from collections import Counter
 import urllib, base64
 import io
-
 from django.contrib.auth.models import User
-
-import numpy
-import random
-
 matplotlib.use('Agg')
+
 
 class Sequence(models.Model):
     title                = models.CharField(max_length=100, null=False)

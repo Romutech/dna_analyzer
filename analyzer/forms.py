@@ -10,6 +10,7 @@ class SequenceForm(forms.ModelForm):
     def save(self, user_id):
         sequence = super().save(commit=False)
         sequence.user_id = user_id
+        sequence = super().save(commit=True)
         with open('media/' + str(sequence.file_path), 'r') as genome_file:
              genome_file.readline()
              sequence.file = genome_file.read()

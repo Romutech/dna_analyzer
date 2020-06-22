@@ -1,10 +1,32 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block content %}
-    <form method="post" action="{% url 'user_login' %}">
-        {% csrf_token %}
-        <input type="text" name="username" placeholder="Utilisateur">
-        <input type="password" name="password" placeholder="Mot de passe">
-        <input type="submit" value="login" />
-    </form>
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>Formulaire de connexion</h1>
+        <ol class="breadcrumb">
+            <li><i class="active fa fa-dashboard"></i> Connexion</li>
+        </ol>
+    </section>
+    <section class="content">
+        <br>
+        <div class="row">
+            <div class="col-md-2 col-md-offset-4">
+                <form method="post" action="{% url 'user_login' %}">
+                    {% csrf_token %}
+                    <p>
+                        <label for =​"username" > Nom d'utilisateur​ </label>​<br>
+                        <input type="text" name="username" placeholder="Utilisateur">
+                    </p>
+                    <p>
+                        <label for =​"password" > Mot de passe </label>​<br>
+                        <input type="password" name="password" placeholder="Mot de passe">
+                    </p>
+                    <br>
+                    <p><input type="submit" value="Connexion" /></p>
+                </form>
+            </div>
+        </div>
+    </section>
+</div>
 {% endblock %}
