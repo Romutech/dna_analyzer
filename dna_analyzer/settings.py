@@ -23,9 +23,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'o=robq1i)uds9!dnuv511q0=8%i$ny#dp4zoc=8zqb*v@fcrom'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+DEBUG = False
+ALLOWED_HOSTS = ['*']
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
 # Application definition
@@ -50,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'dna_analyzer.urls'
@@ -76,16 +78,19 @@ WSGI_APPLICATION = 'dna_analyzer.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'd3vupnph056pu1',
+        'USER': 'eoynqxqvcfyiyl',
+        'PASSWORD': 'e7ce35adeffb43acee0646e8798ebf56af903b69cbb8ee7781c8134877a2ec52',
+        'HOST': 'ec2-54-247-78-30.eu-west-1.compute.amazonaws.com',
+        'PORT': '5432',
+        'DATABASE': 'd3vupnph056pu1',
     }
 }
 
-BINARYFIELD_HACK_ENGINES = (
-    'django.db.backends.sqlite3',
-)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -123,13 +128,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-    '/var/www/static/',
-]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
-STATIC_URL = '/static/'
-
-
