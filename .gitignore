@@ -14,7 +14,9 @@ media
 website/__pycache__
 autorobtech_v3/__pycache__/
 website/migrations/__pycache__/
-
+settings.py
+dna_analyzer/settings.py
+dna_analyzer/*
 # If your build process includes running collectstatic, then you probably don't need or want to include staticfiles/
 # in your Git repository. Update and uncomment the following line accordingly.
 # <django-project-name>/staticfiles/
