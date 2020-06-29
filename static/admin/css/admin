@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+
+<html lang="fr" >
+<head>
+<title>Administration du site | Site d’administration de Django</title>
+<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css">
+<link rel="stylesheet" type="text/css" href="/static/admin/css/dashboard.css">
+
+
+
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/admin/css/responsive.css">
+    
+
+<meta name="robots" content="NONE,NOARCHIVE">
+</head>
+
+
+<body class=" dashboard"
+  data-admin-utc-offset="3600">
+
+<!-- Container -->
+<div id="container">
+
+    
+    <!-- Header -->
+    <div id="header">
+        <div id="branding">
+        
+<h1 id="site-name"><a href="/manage-blog/">Administration de Django</a></h1>
+
+        </div>
+        
+        
+        <div id="user-tools">
+            
+                Bienvenue,
+                <strong>Robin</strong>.
+            
+            
+                
+                    <a href="/">Voir le site</a> /
+                
+                
+                    
+                    
+                
+                
+                <a href="/manage-blog/password_change/">Modifier le mot de passe</a> /
+                
+                <a href="/manage-blog/logout/">Déconnexion</a>
+            
+        </div>
+        
+        
+        
+    </div>
+    <!-- END Header -->
+    
+    
+
+    
+        
+    
+
+    <!-- Content -->
+    <div id="content" class="colMS">
+        
+        <h1>Administration du site</h1>
+        
+<div id="content-main">
+
+
+    
+        <div class="app-auth module">
+        <table>
+        <caption>
+            <a href="/manage-blog/auth/" class="section" title="Modèles de l’application Authentification et autorisation">Authentification et autorisation</a>
+        </caption>
+        
+            <tr class="model-group">
+            
+                <th scope="row"><a href="/manage-blog/auth/group/">Groupes</a></th>
+            
+
+            
+                <td><a href="/manage-blog/auth/group/add/" class="addlink">Ajouter</a></td>
+            
+
+            
+                
+                <td><a href="/manage-blog/auth/group/" class="changelink">Modifier</a></td>
+                
+            
+            </tr>
+        
+            <tr class="model-user">
+            
+                <th scope="row"><a href="/manage-blog/auth/user/">Utilisateurs</a></th>
+            
+
+            
+                <td><a href="/manage-blog/auth/user/add/" class="addlink">Ajouter</a></td>
+            
+
+            
+                
+                <td><a href="/manage-blog/auth/user/" class="changelink">Modifier</a></td>
+                
+            
+            </tr>
+        
+        </table>
+        </div>
+    
+        <div class="app-blog module">
+        <table>
+        <caption>
+            <a href="/manage-blog/blog/" class="section" title="Modèles de l’application Blog">Blog</a>
+        </caption>
+        
+            <tr class="model-article">
+            
+                <th scope="row"><a href="/manage-blog/blog/article/">Articles</a></th>
+            
+
+            
+                <td><a href="/manage-blog/blog/article/add/" class="addlink">Ajouter</a></td>
+            
+
+            
+                
+                <td><a href="/manage-blog/blog/article/" class="changelink">Modifier</a></td>
+                
+            
+            </tr>
+        
+        </table>
+        </div>
+    
+
+</div>
+
+        
+<div id="content-related">
+    <div class="module" id="recent-actions-module">
+        <h2>Actions récentes</h2>
+        <h3>Mes actions</h3>
+            
+            
+            
+            <ul class="actionlist">
+            
+            <li class="addlink">
+                
+                    <a href="/manage-blog/blog/article/10/change/">earzf</a>
+                
+                <br>
+                
+                    <span class="mini quiet">Article</span>
+                
+            </li>
+            
+            <li class="deletelink">
+                
+                    logo
+                
+                <br>
+                
+                    <span class="mini quiet">Article</span>
+                
+            </li>
+            
+            <li class="deletelink">
+                
+                    regr
+                
+                <br>
+                
+                    <span class="mini quiet">Article</span>
+                
+            </li>
+            
+            <li class="addlink">
+                
+                    <a href="/manage-blog/blog/article/9/change/">logo</a>
+                
+                <br>
+                
+                    <span class="mini quiet">Article</span>
+                
+            </li>
+            
+            <li class="addlink">
+                
+                    <a href="/manage-blog/blog/article/8/change/">regr</a>
+                
+                <br>
+                
+                    <span class="mini quiet">Article</span>
+                
+            </li>
+            
+            <li class="deletelink">
+                
+                    rfe
+                
+                <br>
+                
+                    <span class="mini quiet">Article</span>
+                
+            </li>
+            
+            <li class="addlink">
+                
+                    <a href="/manage-blog/blog/article/7/change/">rfe</a>
+                
+                <br>
+                
+                    <span class="mini quiet">Article</span>
+                
+            </li>
+            
+            <li class="deletelink">
+                
+                    seqfd
+                
+                <br>
+                
+                    <span class="mini quiet">Article</span>
+                
+            </li>
+            
+            <li class="addlink">
+                
+                    <a href="/manage-blog/blog/article/6/change/">seqfd</a>
+                
+                <br>
+                
+                    <span class="mini quiet">Article</span>
+                
+            </li>
+            
+            <li class="deletelink">
+                
+                    aa
+                
+                <br>
+                
+                    <span class="mini quiet">Article</span>
+                
+            </li>
+            
+            </ul>
+            
+    </div>
+</div>
+
+        <br class="clear">
+    </div>
+    <!-- END Content -->
+
+    <div id="footer"></div>
+</div>
+<!-- END Container -->
+
+</body>
+</html>
