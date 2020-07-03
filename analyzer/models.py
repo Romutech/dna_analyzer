@@ -56,8 +56,8 @@ class Sequence(models.Model):
 
 
     def percentage_GC_AT(self):
-        self.percentage_gc = self.percentage_a + self.percentage_t
-        self.percentage_at = self.percentage_g + self.percentage_c
+        self.percentage_gc = self.percentage_g + self.percentage_c
+        self.percentage_at = self.percentage_a + self.percentage_t
 
 
     def graph_image_generation(self, plt):

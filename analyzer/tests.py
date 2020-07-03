@@ -34,4 +34,10 @@ class SequenceTest(TestCase):
         self.assertEqual(self.sequence.percentage_g, 25.0)
         self.assertEqual(self.sequence.percentage_t, 25.0)
 
+    def test_percentage_GC_AT(self):
+        self.sequence.number_nucleotides()
+        self.sequence.percentage_nucleotide()
 
+        self.sequence.percentage_GC_AT()
+        self.assertEqual(self.sequence.percentage_gc, self.sequence.percentage_g + self.sequence.percentage_c)
+        self.assertEqual(self.sequence.percentage_at, self.sequence.percentage_a + self.sequence.percentage_t)
