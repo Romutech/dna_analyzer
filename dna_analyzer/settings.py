@@ -86,6 +86,13 @@ WSGI_APPLICATION = 'dna_analyzer.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+# in dev mode
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': 'mydatabase',
+#     }
+# }
 
 DATABASES = {
     'default': {
@@ -98,7 +105,6 @@ DATABASES = {
         'DATABASE': 'd3vupnph056pu1',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
