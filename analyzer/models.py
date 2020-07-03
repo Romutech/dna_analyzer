@@ -91,6 +91,7 @@ class Sequence(models.Model):
         self.dna_walk_graph_data = self.graph_image_generation(plt)
         self.save()
 
+
     def ratio_g_c_graph(self):
         nb_windows = 1000
         abscissa = []
