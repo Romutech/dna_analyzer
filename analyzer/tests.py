@@ -103,4 +103,13 @@ class SequenceTest(TestCase):
         self.assertTrue(self.sequence.ratio_g_c_graph_data is not None)
         self.assertTrue(len(self.sequence.ratio_g_c_graph_data) > 0)
 
+    def test_dna_walk_graph(self):
+        self.sequence.analyze()
 
+        self.assertTrue(self.sequence.dna_walk_graph_data is None)
+
+        self.sequence.dna_walk_graph()
+
+        self.assertTrue(self.sequence.dna_walk_graph_data is not None)
+        self.assertTrue(len(self.sequence.dna_walk_graph_data) > 0)
+        
