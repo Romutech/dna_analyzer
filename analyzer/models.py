@@ -31,7 +31,7 @@ class Sequence(models.Model):
     date                 = models.DateField(default=timezone.now, verbose_name="Date de création")
 
 
-    def analyse(self):
+    def analyze(self):
         self.number_nucleotides()
         self.percentage_nucleotide()
         self.percentage_GC_AT()

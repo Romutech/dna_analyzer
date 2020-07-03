@@ -63,7 +63,7 @@ def analyze(request, id):
     if not request.user.is_active:
         return redirect('user_login')
     sequence = get_object_or_404(Sequence, id=id, user=request.user.id)
-    sequence.analyse()
+    sequence.analyze()
     sequence.ratio_g_c_graph()
     sequence.dna_walk_graph()
     return redirect('read', id)
