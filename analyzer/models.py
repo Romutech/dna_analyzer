@@ -99,6 +99,8 @@ class Sequence(models.Model):
         if nb_windows < self.nb_bases:
             size_window = self.nb_bases // nb_windows
             nb_windows = self.determine_number_of_windows(nb_windows, size_window)
+        elif nb_windows > self.nb_bases:
+            nb_windows = self.nb_bases
         plt.figure(figsize=(11.5, 4))
         plt.gca().set_xlabel('Nombre de fenêtres (' + str(size_window) + ' nucléotides par fenêtre)')
         ordinate = self.determine_ration_c_g(nb_windows, size_window)
