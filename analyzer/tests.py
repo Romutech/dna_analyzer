@@ -92,3 +92,15 @@ class SequenceTest(TestCase):
         self.assertEqual(self.sequence.percentage_gc, self.sequence.percentage_g + self.sequence.percentage_c)
         self.assertEqual(self.sequence.percentage_at, self.sequence.percentage_a + self.sequence.percentage_t)
         
+
+    def test_ratio_g_c_graph(self):
+        self.sequence.analyze()
+        
+        self.assertTrue(self.sequence.ratio_g_c_graph_data is None)
+
+        self.sequence.ratio_g_c_graph()
+
+        self.assertTrue(self.sequence.ratio_g_c_graph_data is not None)
+        self.assertTrue(len(self.sequence.ratio_g_c_graph_data) > 0)
+
+
