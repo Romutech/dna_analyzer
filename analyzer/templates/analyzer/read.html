@@ -27,12 +27,12 @@
             <div class="col-md-12">
                 <h2>Dénomination de la sequence</h2>
                 <p>Nom de la séquence ADN : <b>{{ sequence.title }}</b></p>
-                <p>Nom du fichier Téléverser : <b>{{ sequence.file_path }}</b></p>
+                <p>Nom du fichier Téléversé : <b>{{ sequence.file_path }}</b></p>
                 <p>ID : <b>{{ sequence.id }}</b></p>
                 <p>Note : <b>{{ sequence.note }}</b></p>
                 <h2>Données statistiques de la séquence</h2>
                 {% if sequence.nb_bases %}
-                    <p>Nombre de base composant la séquence : <b>{{ sequence.nb_bases }}</b></p>
+                    <p>Nombre de bases composant la séquence : <b>{{ sequence.nb_bases }}</b></p>
                     <p>Nombre d'Adénine : <b>{{ sequence.nb_a }}</b></p>
                     <p>Nombre de Cytosine : <b>{{ sequence.nb_c }}</b></p>
                     <p>Nombre de Guanine : <b>{{ sequence.nb_g }}</b></p>
