@@ -1,10 +1,28 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from .forms import SequenceForm
 from .models import *
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage
+import requests
+from django.conf import settings
+import json
 
 def index(request, page=1):
+    # -----------------------------------------------
+    resp = requests.get(settings.URL())
+
+    sequences = resp.json()
+
+    paginator = Paginator(sequences, 20, 5)
+    try:
+        sequences = paginator.page(page)
+    except EmptyPage:
+        sequences = paginator.page(paginator.num_pages)
+    return render(request, 'analyzer/index.html', locals())
+
+
+    # -----------------------------------------------
+
     if not request.user.is_active:
         return redirect('user_login')
     sequences = Sequence.objects.filter(user=request.user.id)
@@ -16,18 +34,51 @@ def index(request, page=1):
     return render(request, 'analyzer/index.html', locals())
 
 
+def create_api(json_data):
+
+
+    requests.post(settings.URL(), json=json_data)
+
+
+
+
 def create(request):
+    dic = dict()
+
+
     if not request.user.is_active:
         return redirect('user_login')
     if request.method == 'POST':
         form = SequenceForm(request.POST, request.FILES)
         if form.is_valid():
-            return redirect('read', form.save(request.user.id).id)
+            dic['title'] = request.POST['title']
+            dic['file_path'] = "path_dufile.fna"
+            dic['note'] = request.POST['note']
+            dic['user_id'] = request.user.id
+
+
+            res = dic
+
+            create_api(res)
+
+            return redirect('index')
     form = SequenceForm()
     return render(request, 'analyzer/sequence_form.html', locals())
 
 
 def read(request, id):
+    # -----------------------------------------------
+
+    resp = requests.get(settings.URL(id))
+
+    sequence = resp.json()
+
+    if sequence['nb_bases'] is not None:
+        sequence.nb_bases = int(sequence.nb_bases)
+    return render(request, 'analyzer/read.html', locals())
+
+    # -----------------------------------------------
+
     if not request.user.is_active:
         return redirect('user_login')
     sequence = get_object_or_404(Sequence, id=id, user=request.user.id)
