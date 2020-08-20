@@ -34,32 +34,36 @@ def index(request, page=1):
     return render(request, 'analyzer/index.html', locals())
 
 
-def create_api(json_data):
-
-
-    requests.post(settings.URL(), json=json_data)
-
-
-
-
 def create(request):
-    dic = dict()
-
-
     if not request.user.is_active:
         return redirect('user_login')
     if request.method == 'POST':
         form = SequenceForm(request.POST, request.FILES)
         if form.is_valid():
-            dic['title'] = request.POST['title']
-            dic['file_path'] = "path_dufile.fna"
-            dic['note'] = request.POST['note']
-            dic['user_id'] = request.user.id
+            # fichier = open('media/' + str(request.FILES['file_path'], 'wt')
+            # fichier.write(
+            #     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. \nPellentesque gravida erat ut lectus convallis auctor. \nFusce mollis sem id tellus auctor hendrerit.")
+            # fichier.close()
+
+            file = request.FILES['file_path']
+
+            with open('media/' + str(request.FILES['file_path']) , 'wb+') as destination:
+                for chunk in file.chunks():
+                    destination.write(chunk)
 
 
-            res = dic
+            with open('media/' + str(request.FILES['file_path']), 'r') as genome_file:
+                genome_file.readline()
 
-            create_api(res)
+                json_data = {
+                    'title': request.POST['title'],
+                    'file_path': str(request.FILES['file_path']),
+                    'note': request.POST['note'],
+                    'user_id': request.user.id,
+                    'file': genome_file.read()
+                }
+
+            requests.post(settings.URL(), json=json_data)
 
             return redirect('index')
     form = SequenceForm()

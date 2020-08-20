@@ -1,18 +1,7 @@
 from django import forms
 from .models import Sequence
 
-class SequenceForm(forms.ModelForm):
-    class Meta:
-        model = Sequence
-        fields = ('title', 'file_path', 'note')
-
-
-    def save(self, user_id):
-        sequence = super().save(commit=False)
-        sequence.user_id = user_id
-        sequence = super().save(commit=True)
-        with open('media/' + str(sequence.file_path), 'r') as genome_file:
-             genome_file.readline()
-             sequence.file = genome_file.read()
-             sequence.save()
-        return sequence
+class SequenceForm(forms.Form):
+    title       = forms.CharField(max_length=100)
+    file_path   = forms.FileField()
+    note        = forms.CharField(widget=forms.Textarea)
