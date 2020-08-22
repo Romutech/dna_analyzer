@@ -35,11 +35,11 @@
                             </tr>
                             {% for sequence in sequences %}
                                 <tr>
-                                    <th>{{ sequence.id }}</th>
+                                    <th>{{ sequence.uuid }}</th>
                                     <td>{{ sequence.title }}</td>
                                     <td>{{ sequence.nb_bases }}</td>
                                     <td>{{ sequence.date }}</td>
-                                    <td><a href="{% url 'read' sequence.id %}">voir</a></td>
+                                    <td><a href="{% url 'read' sequence.uuid %}">voir</a></td>
                                 </tr>
                             {% endfor %}
                         </table>

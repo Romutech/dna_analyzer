@@ -16,10 +16,10 @@
                 <nav class="navbar navbar-static-top" role="navigation">
                     <div  class="primary navbar-custom-menu">
                         <div class="col-md-6">
-                            <a href="{% url 'update' sequence.id %}"><button class="btn btn-block btn-warning">Mettre à jour la séquence</button></a>
+                            <a href="{% url 'update' sequence.uuid %}"><button class="btn btn-block btn-warning">Mettre à jour la séquence</button></a>
                         </div>
                         <div class="col-md-6">
-                            <a href="{% url 'delete' sequence.id %}"><button class="btn btn-block btn-danger" onclick="return confirm('Etes-vous sûr de vouloir surppimer cette séquence ?');">Supprimer la séquence</button></a>
+                            <a href="{% url 'delete' sequence.uuid %}"><button class="btn btn-block btn-danger" onclick="return confirm('Etes-vous sûr de vouloir surppimer cette séquence ?');">Supprimer la séquence</button></a>
                         </div>
                     </div>
                 </nav>
@@ -28,7 +28,7 @@
                 <h2>Dénomination de la sequence</h2>
                 <p>Nom de la séquence ADN : <b>{{ sequence.title }}</b></p>
                 <p>Nom du fichier Téléversé : <b>{{ sequence.file_path }}</b></p>
-                <p>ID : <b>{{ sequence.id }}</b></p>
+                <p>ID : <b>{{ sequence.uuid }}</b></p>
                 <p>Note : <b>{{ sequence.note }}</b></p>
                 <h2>Données statistiques de la séquence</h2>
                 {% if sequence.nb_bases %}
@@ -48,13 +48,13 @@
             </div>
             {% if sequence.nb_bases %}
                 <div class="col-md-2">
-                    <p><a href="{% url 'analyze' sequence.id %}"><button class="btn btn-block btn-primary">Réanalyser la séquence</button></a></p>
+                    <p><a href="{% url 'analyze' sequence.uuid %}"><button class="btn btn-block btn-primary">Réanalyser la séquence</button></a></p>
                 </div>
             {% else %}
                 <div class="col-md-6">
                     <p><b>Pas de données statistique pour le moment !</b></p>
                     {% if sequence.file is not None %}
-                        <a href="{% url 'analyze' sequence.id %}"><button class="btn btn-block btn-primary btn-lg">Analyser la séquence</button></a>
+                        <a href="{% url 'analyze' sequence.uuid %}"><button class="btn btn-block btn-primary btn-lg">Analyser la séquence</button></a>
                     {% else %}
                         <p>La séquence ADN est vide, vous ne pouvez par conséquent pas l'analyser !</p>
                     {% endif %}
