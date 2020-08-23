@@ -6,14 +6,14 @@ from django.core.paginator import Paginator, EmptyPage
 import requests
 from django.conf import settings
 import json
-import uuid
+
 
 def index(request, page=1):
     if not request.user.is_active:
         return redirect('user_login')
 
-    response = requests.get(settings.URL())
-    sequences = response.json()
+    responses = requests.get(settings.URL())
+    sequences = responses.json()
     paginator = Paginator(sequences, 20, 5)
 
     try:
@@ -50,18 +50,9 @@ def create(request):
             }
 
             requests.post(settings.URL(), json=json_data)
-            response = requests.get(settings.URL())
-            sequences = response.json()
-            paginator = Paginator(sequences, 20, 5)
 
-            try:
-                sequences = paginator.page(1)
-            except EmptyPage:
-                sequences = paginator.page(paginator.num_pages)
-            return render(request, 'analyzer/index.html', locals())
-            return render(request, 'analyzer/read.html', locals())
-
-
+            return redirect('index')
+            #return render(request, 'analyzer/read.html', locals())
 
     form = SequenceForm()
     return render(request, 'analyzer/sequence_form.html', locals())
@@ -69,11 +60,8 @@ def create(request):
 
 def read(request, unique_id):
     response = requests.get(settings.URL(unique_id))
-
     sequence = response.json()
 
-    if sequence['nb_bases'] is not None:
-        sequence.nb_bases = int(sequence.nb_bases)
     return render(request, 'analyzer/read.html', locals())
 
 
@@ -82,7 +70,6 @@ def update(request, unique_id):
         return redirect('user_login')
 
     response = requests.get(settings.URL(unique_id))
-
     sequence = response.json()
 
     if request.method == 'POST':
@@ -111,6 +98,7 @@ def update(request, unique_id):
 
             requests.put(settings.URL(unique_id), json=json_data)
 
+            messages.add_message(request, messages.SUCCESS, 'La séquence ADN a bien été mise à jour !')
             return redirect('read', unique_id)
     else:
         form = SequenceFormUpdate(sequence)
@@ -120,18 +108,33 @@ def update(request, unique_id):
 def delete(request, unique_id):
     if not request.user.is_active:
         return redirect('user_login')
-    sequence = get_object_or_404(Sequence, id=unique_id, user=request.user.id)
-    sequence.delete()
+
+    requests.delete(settings.URL(unique_id))
+
     messages.add_message(request, messages.SUCCESS, 'La séquence ADN a bien été supprimée !')
     return redirect('index')
 
 
-def analyze(request, id):
+def analyze(request, unique_id):
     if not request.user.is_active:
         return redirect('user_login')
-    sequence = get_object_or_404(Sequence, id=id, user=request.user.id)
-    sequence.analyze()
-    sequence.ratio_g_c_graph()
-    sequence.dna_walk_graph()
-    return redirect('read', id)
 
+    response = requests.get(settings.URL(unique_id))
+
+    json_data = response.json()
+
+    sequence_model = Sequence()
+    json_data = sequence_model.analyze(json_data)
+    del json_data['uuid']
+
+
+    sequence_model.ratio_g_c_graph(json_data)
+    sequence_model.dna_walk_graph(json_data)
+    #zds = e()
+    res = requests.put(settings.URL(unique_id), json=json_data)
+
+
+
+    #aaaaaaa = (100 / 30000) * 5000
+    #rzfe = ef()
+    return redirect('read', unique_id)

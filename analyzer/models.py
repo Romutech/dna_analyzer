@@ -10,33 +10,39 @@ matplotlib.use('Agg')
 
 
 class Sequence(models.Model):
-    def analyze(self):
-        self.number_nucleotides()
-        self.percentage_nucleotide()
-        self.percentage_GC_AT()
-        models.Model.save(self)
-        return self
+    def analyze(self, json_data):
+        self.number_nucleotides(json_data)
+        self.percentage_nucleotide(json_data)
+        self.percentage_GC_AT(json_data)
+
+        return json_data
 
 
-    def number_nucleotides(self):
-        occurrences = Counter(self.file.lower())
-        self.nb_bases = occurrences['a'] + occurrences['c'] + occurrences['g'] + occurrences['t']
-        self.nb_a = occurrences['a']
-        self.nb_c = occurrences['c']
-        self.nb_g = occurrences['g']
-        self.nb_t = occurrences['t']
+    def number_nucleotides(self, json_data):
+        occurrences = Counter(json_data['file'].lower())
+        json_data['nb_bases'] = occurrences['a'] + occurrences['c'] + occurrences['g'] + occurrences['t']
+        json_data['nb_a'] = occurrences['a']
+        json_data['nb_c'] = occurrences['c']
+        json_data['nb_g'] = occurrences['g']
+        json_data['nb_t'] = occurrences['t']
+
+        return json_data
 
 
-    def percentage_nucleotide(self):
-        self.percentage_a = (100 / self.nb_bases) * self.nb_a
-        self.percentage_c = (100 / self.nb_bases) * self.nb_c
-        self.percentage_g = (100 / self.nb_bases) * self.nb_g
-        self.percentage_t = (100 / self.nb_bases) * self.nb_t
+    def percentage_nucleotide(self, json_data):
+        json_data['percentage_a'] = round((100 / json_data['nb_bases']) * json_data['nb_a'], 2)
+        json_data['percentage_c'] = round((100 / json_data['nb_bases']) * json_data['nb_c'], 2)
+        json_data['percentage_g'] = round((100 / json_data['nb_bases']) * json_data['nb_g'], 2)
+        json_data['percentage_t'] = round((100 / json_data['nb_bases']) * json_data['nb_t'], 2)
+
+        return json_data
 
 
-    def percentage_GC_AT(self):
-        self.percentage_gc = self.percentage_g + self.percentage_c
-        self.percentage_at = self.percentage_a + self.percentage_t
+    def percentage_GC_AT(self, json_data):
+        json_data['percentage_gc'] = round(json_data['percentage_g'] + json_data['percentage_c'], 2)
+        json_data['percentage_at'] = round(json_data['percentage_a'] + json_data['percentage_t'], 2)
+
+        return json_data
 
 
     def graph_image_generation(self, plt):
@@ -49,11 +55,11 @@ class Sequence(models.Model):
         return urllib.parse.quote(string)
 
 
-    def dna_walk_graph(self):
+    def dna_walk_graph(self, json_data):
         abscissa = []
         ordinate = []
         x = y = 0
-        for nucleotide in self.file:
+        for nucleotide in json_data['file']:
             if 'a' == nucleotide.lower():
                 y += 1
             elif 'c' == nucleotide.lower():
@@ -67,33 +73,31 @@ class Sequence(models.Model):
         plt.figure(figsize=(10, 10))
         plt.plot(abscissa, ordinate, "black", linewidth=0.7, )
         plt.grid(True)
-        self.dna_walk_graph_data = self.graph_image_generation(plt)
-        self.save()
+        json_data['dna_walk_graph_data'] = self.graph_image_generation(plt)
 
 
-    def ratio_g_c_graph(self):
+    def ratio_g_c_graph(self, json_data):
         nb_windows = 1000
         abscissa = []
         size_window = 10
-        if nb_windows * size_window < self.nb_bases :
-            size_window = self.nb_bases // nb_windows
-            nb_windows = self.determine_number_of_windows(nb_windows, size_window)
+        if nb_windows * size_window < json_data['nb_bases'] :
+            size_window = json_data['nb_bases'] // nb_windows
+            nb_windows = self.determine_number_of_windows(nb_windows, size_window, json_data)
         else:
-            nb_windows = self.nb_bases // size_window
+            nb_windows = json_data['nb_bases'] // size_window
         plt.figure(figsize=(11.5, 4))
         plt.gca().set_xlabel('Nombre de fenêtres (' + str(size_window) + ' nucléotides par fenêtre)')
-        ordinate = self.determine_ration_c_g(nb_windows, size_window)
+        ordinate = self.determine_ration_c_g(nb_windows, size_window, json_data)
         [abscissa.append(nb) for nb in range(len(ordinate))]
         plt.plot(abscissa, ordinate, linewidth=1)
         plt.plot(abscissa, [0 for _ in range(len(ordinate))], "r")
         plt.axis([0, len(ordinate), -1, 1])
         plt.grid(True)
-        self.ratio_g_c_graph_data = self.graph_image_generation(plt)
-        self.save()
+        json_data['ratio_g_c_graph_data'] = self.graph_image_generation(plt)
 
 
-    def determine_number_of_windows(self, nb_windows, size_window):
-        rest = self.nb_bases % nb_windows
+    def determine_number_of_windows(self, nb_windows, size_window, json_data):
+        rest = json_data['nb_bases'] % nb_windows
         if rest > size_window:
             while rest > size_window:
                 nb_windows = nb_windows + (rest // size_window)
@@ -103,14 +107,14 @@ class Sequence(models.Model):
         return nb_windows
 
 
-    def determine_ration_c_g(self, nb_windows, size_window):
+    def determine_ration_c_g(self, nb_windows, size_window, json_data):
         number_windows_incremented = number_window_size_incremented = index_file = nb_g = nb_c = 0
         ratios = []
         while number_windows_incremented < nb_windows:
-            while number_window_size_incremented < size_window and index_file < self.nb_bases:
-                if 'g' == str(self.file[index_file]).lower():
+            while number_window_size_incremented < size_window and index_file < json_data['nb_bases']:
+                if 'g' == str(json_data['file'][index_file]).lower():
                     nb_g += 1
-                elif 'c' == str(self.file[index_file]).lower():
+                elif 'c' == str(json_data['file'][index_file]).lower():
                     nb_c += 1
                 number_window_size_incremented += 1
                 index_file += 1

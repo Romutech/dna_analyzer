@@ -10,3 +10,4 @@ class SequenceFormUpdate(forms.Form):
     title = forms.CharField(max_length=100)
     file_path = forms.FileField(required= False)
     note = forms.CharField(widget=forms.Textarea)
+    nb_bases = forms.CharField(max_length=100)
