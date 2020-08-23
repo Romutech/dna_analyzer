@@ -120,21 +120,11 @@ def analyze(request, unique_id):
         return redirect('user_login')
 
     response = requests.get(settings.URL(unique_id))
-
-    json_data = response.json()
-
     sequence_model = Sequence()
-    json_data = sequence_model.analyze(json_data)
-    del json_data['uuid']
-
-
+    json_data = response.json()
+    sequence_model.analyze(json_data)
     sequence_model.ratio_g_c_graph(json_data)
     sequence_model.dna_walk_graph(json_data)
-    #zds = e()
-    res = requests.put(settings.URL(unique_id), json=json_data)
+    requests.put(settings.URL(unique_id), json=json_data)
 
-
-
-    #aaaaaaa = (100 / 30000) * 5000
-    #rzfe = ef()
     return redirect('read', unique_id)

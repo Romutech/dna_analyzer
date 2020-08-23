@@ -1,11 +1,9 @@
 from django.db import models
-from django.utils import timezone
 from matplotlib import pyplot as plt
 import matplotlib
 from collections import Counter
 import urllib, base64
 import io
-from django.contrib.auth.models import User
 matplotlib.use('Agg')
 
 
@@ -14,8 +12,6 @@ class Sequence(models.Model):
         self.number_nucleotides(json_data)
         self.percentage_nucleotide(json_data)
         self.percentage_GC_AT(json_data)
-
-        return json_data
 
 
     def number_nucleotides(self, json_data):
@@ -26,8 +22,6 @@ class Sequence(models.Model):
         json_data['nb_g'] = occurrences['g']
         json_data['nb_t'] = occurrences['t']
 
-        return json_data
-
 
     def percentage_nucleotide(self, json_data):
         json_data['percentage_a'] = round((100 / json_data['nb_bases']) * json_data['nb_a'], 2)
@@ -35,14 +29,10 @@ class Sequence(models.Model):
         json_data['percentage_g'] = round((100 / json_data['nb_bases']) * json_data['nb_g'], 2)
         json_data['percentage_t'] = round((100 / json_data['nb_bases']) * json_data['nb_t'], 2)
 
-        return json_data
-
 
     def percentage_GC_AT(self, json_data):
         json_data['percentage_gc'] = round(json_data['percentage_g'] + json_data['percentage_c'], 2)
         json_data['percentage_at'] = round(json_data['percentage_a'] + json_data['percentage_t'], 2)
-
-        return json_data
 
 
     def graph_image_generation(self, plt):
