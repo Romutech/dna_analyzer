@@ -24,24 +24,22 @@ SECRET_KEY = 'o=robq1i)uds9!dnuv511q0=8%i$ny#dp4zoc=8zqb*v@fcrom'
 # SECURITY WARNING: don't run with debug turned on in production!
 
 # DEBUG = True
-ALLOWED_HOSTS = ['*']
-STATIC_URL = '/static/'
-STATICFILES_DIRS = (
-   os.path.join(BASE_DIR, "static"),
-)
-
-# DEBUG = True
 # ALLOWED_HOSTS = ['*']
 # STATIC_URL = '/static/'
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATICFILES_DIRS = (
+#    os.path.join(BASE_DIR, "static"),
+# )
+
+DEBUG = True
+ALLOWED_HOSTS = ['*']
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 URL = lambda path='': \
     'http://127.0.0.1:8080/sequences/{}'.format(str(path) + '/') \
     if len(str(path)) > 0 \
     else  'http://127.0.0.1:8080/sequences/'
 
-
-g = lambda x: x*2
 # Application definition
 
 INSTALLED_APPS = [
@@ -92,26 +90,26 @@ WSGI_APPLICATION = 'dna_analyzer.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 #n dev mode
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'mydatabase',
-    }
-}
-
-
-#
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'd3vupnph056pu1',
-#         'USER': 'eoynqxqvcfyiyl',
-#         'PASSWORD': 'e7ce35adeffb43acee0646e8798ebf56af903b69cbb8ee7781c8134877a2ec52',
-#         'HOST': 'ec2-54-247-78-30.eu-west-1.compute.amazonaws.com',
-#         'PORT': '5432',
-#         'DATABASE': 'd3vupnph056pu1',
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': 'mydatabase',
 #     }
 # }
+
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'd3vupnph056pu1',
+        'USER': 'eoynqxqvcfyiyl',
+        'PASSWORD': 'e7ce35adeffb43acee0646e8798ebf56af903b69cbb8ee7781c8134877a2ec52',
+        'HOST': 'ec2-54-247-78-30.eu-west-1.compute.amazonaws.com',
+        'PORT': '5432',
+        'DATABASE': 'd3vupnph056pu1',
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
