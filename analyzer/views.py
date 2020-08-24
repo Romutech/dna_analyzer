@@ -1,70 +1,126 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from .forms import SequenceForm
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
+from .forms import SequenceForm, SequenceFormUpdate
 from .models import *
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage
+import requests
+from django.conf import settings
+
 
 def index(request, page=1):
     if not request.user.is_active:
         return redirect('user_login')
-    sequences = Sequence.objects.filter(user=request.user.id)
+
+    responses = requests.get(settings.URL())
+    sequences = responses.json()
     paginator = Paginator(sequences, 20, 5)
+
     try:
         sequences = paginator.page(page)
     except EmptyPage:
         sequences = paginator.page(paginator.num_pages)
+
     return render(request, 'analyzer/index.html', locals())
 
 
 def create(request):
     if not request.user.is_active:
         return redirect('user_login')
+
     if request.method == 'POST':
         form = SequenceForm(request.POST, request.FILES)
+
         if form.is_valid():
-            return redirect('read', form.save(request.user.id).id)
+            file = request.FILES['file_path']
+
+            with open('media/' + str(file) , 'wb+') as genome_file:
+                for chunk in file.chunks():
+                    genome_file.write(chunk)
+
+            with open('media/' + str(file), 'r') as genome_file:
+                genome_file.readline()
+                file = genome_file.read()
+
+            json_data = {
+                'title': request.POST['title'],
+                'file_path': str(request.FILES['file_path']),
+                'note': request.POST['note'],
+                'user_id': request.user.id,
+                'file': file
+            }
+
+            requests.post(settings.URL(), json=json_data)
+
+            return redirect('index')
+
     form = SequenceForm()
+
     return render(request, 'analyzer/sequence_form.html', locals())
 
 
-def read(request, id):
-    if not request.user.is_active:
-        return redirect('user_login')
-    sequence = get_object_or_404(Sequence, id=id, user=request.user.id)
-    if sequence.nb_bases is not None:
-        sequence.nb_bases = int(sequence.nb_bases)
+def read(request, unique_id):
+    response = requests.get(settings.URL(unique_id))
+    sequence = response.json()
+
     return render(request, 'analyzer/read.html', locals())
 
 
-def update(request, id):
+def update(request, unique_id):
     if not request.user.is_active:
         return redirect('user_login')
-    sequence = get_object_or_404(Sequence, id=id, user=request.user.id)
+
+    response = requests.get(settings.URL(unique_id))
+    sequence = response.json()
+
     if request.method == 'POST':
-        form = SequenceForm(request.POST, request.FILES, instance=sequence)
+        form = SequenceFormUpdate(request.POST, request.FILES)
         if form.is_valid():
-            form.save(request.user.id)
-            return redirect('read', id)
+            if 'file_path' in request.FILES:
+                file = request.FILES['file_path']
+
+                with open('media/' + str(file), 'wb+') as genome_file:
+                    for chunk in file.chunks():
+                        genome_file.write(chunk)
+
+                with open('media/' + str(file), 'r') as genome_file:
+                    genome_file.readline()
+                    file = genome_file.read()
+
+            json_data = {'title': request.POST['title'], 'note': request.POST['note'], 'user_id': request.user.id}
+
+            if 'file' in locals():
+                json_data['file_path'] = str(request.FILES['file_path'])
+                json_data['file'] = file
+
+            requests.put(settings.URL(unique_id), json=json_data)
+
+            messages.add_message(request, messages.SUCCESS, 'La séquence ADN a bien été mise à jour !')
+            return redirect('read', unique_id)
     else:
-        form = SequenceForm(instance=sequence)
+        form = SequenceFormUpdate(sequence)
     return render(request, 'analyzer/sequence_form.html', locals())
 
 
-def delete(request, id):
+def delete(request, unique_id):
     if not request.user.is_active:
         return redirect('user_login')
-    sequence = get_object_or_404(Sequence, id=id, user=request.user.id)
-    sequence.delete()
+
+    requests.delete(settings.URL(unique_id))
     messages.add_message(request, messages.SUCCESS, 'La séquence ADN a bien été supprimée !')
+
     return redirect('index')
 
 
-def analyze(request, id):
+def analyze(request, unique_id):
     if not request.user.is_active:
         return redirect('user_login')
-    sequence = get_object_or_404(Sequence, id=id, user=request.user.id)
-    sequence.analyze()
-    sequence.ratio_g_c_graph()
-    sequence.dna_walk_graph()
-    return redirect('read', id)
 
+    response = requests.get(settings.URL(unique_id))
+    sequence_model = Sequence()
+    json_data = response.json()
+    sequence_model.analyze(json_data)
+    sequence_model.ratio_g_c_graph(json_data)
+    sequence_model.dna_walk_graph(json_data)
+    requests.put(settings.URL(unique_id), json=json_data)
+
+    return redirect('read', unique_id)
