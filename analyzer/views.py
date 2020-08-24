@@ -5,7 +5,6 @@ from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage
 import requests
 from django.conf import settings
-import json
 
 
 def index(request, page=1):
@@ -20,6 +19,7 @@ def index(request, page=1):
         sequences = paginator.page(page)
     except EmptyPage:
         sequences = paginator.page(paginator.num_pages)
+
     return render(request, 'analyzer/index.html', locals())
 
 
@@ -52,9 +52,9 @@ def create(request):
             requests.post(settings.URL(), json=json_data)
 
             return redirect('index')
-            #return render(request, 'analyzer/read.html', locals())
 
     form = SequenceForm()
+
     return render(request, 'analyzer/sequence_form.html', locals())
 
 
@@ -86,11 +86,7 @@ def update(request, unique_id):
                     genome_file.readline()
                     file = genome_file.read()
 
-            json_data = {
-                'title': request.POST['title'],
-                'note': request.POST['note'],
-                'user_id': request.user.id,
-            }
+            json_data = {'title': request.POST['title'], 'note': request.POST['note'], 'user_id': request.user.id}
 
             if 'file' in locals():
                 json_data['file_path'] = str(request.FILES['file_path'])
@@ -110,8 +106,8 @@ def delete(request, unique_id):
         return redirect('user_login')
 
     requests.delete(settings.URL(unique_id))
-
     messages.add_message(request, messages.SUCCESS, 'La séquence ADN a bien été supprimée !')
+
     return redirect('index')
 
 
