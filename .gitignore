@@ -10,7 +10,6 @@ __pycache__/
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
-media
 website/__pycache__
 autorobtech_v3/__pycache__/
 website/migrations/__pycache__/
